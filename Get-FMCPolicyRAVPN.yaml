@@ -13,7 +13,7 @@
 
 
 
-    - name: Get a specific Network object
+    - name: Get a FTD Device Settings
       cisco.fmcansible.fmc_configuration:
         operation: getAllDeviceSettings
         path_params:
