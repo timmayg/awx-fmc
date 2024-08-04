@@ -21,6 +21,7 @@
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
+        register: response
 
     - name: 05 - Set expiry date fact
       set_fact:
