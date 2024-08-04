@@ -2,27 +2,52 @@
 - hosts: all
   connection: httpapi
   tasks:
-    - name: Get Domain
+    - name: 01 - Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domains
 
-    - name: Debug domain_response
+    - name: 02 - Debug domain_response
       debug:
         var: domains
 
-    - name: Set domain_uuid
+    - name: 03 - Set domain_uuid
       set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
 # https://developer.cisco.com/docs/fmc-ansible/getravpngateway/#example
-    - name: Execute 'getRaVpnGateway' operation
+    - name: 04 - Execute 'getRaVpnGateway' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-    #    query_params:
-    #        offset: "{{ offset }}"
-    #        limit: "{{ limit }}"
-    #        expanded: "{{ expanded }}"
+
+    - name: 05 - Set expiry date fact
+      set_fact:
+        expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
+
+    - name: 06 - Parse the expiry date
+      set_fact:
+        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
+
+    - name: 07 - Get today's date
+      set_fact:
+        today_date: "{{ ansible_date_time.iso8601 | community.general.date_parse }}"
+
+    - name: 08 - Calculate difference between expiry date and today
+      set_fact:
+        days_until_expiry: "{{ (expiry_datetime - today_date).days }}"
+
+    - name: 09 - Check if the expiry date is before today or within 30 days
+      debug:
+        msg: >
+          {% if days_until_expiry < 0 %}
+            The certificate has already expired.
+          {% elif days_until_expiry <= 30 %}
+            The certificate will expire within the next 30 days.
+          {% else %}
+            The certificate is valid for more than 30 days.
+          {% endif %}
+
+
 
