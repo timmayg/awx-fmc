@@ -6,17 +6,12 @@
         operation: getAllDomain
         register_as: domain
 
-
-
-# $dev_settings_uri = 'https://' + $fqdn + '/api/fmc_config/v1/domain/' + $domain_uuid + '/devices/devicesettings'
-# $dev_settings_response = Invoke-RestMethod -Method Get -Uri $dev_settings_uri -Headers $headers
-
-
-
-    - name: Get a FTD Device Settings
+    - name: Execute 'getAllDeviceSettings' operation
       cisco.fmcansible.fmc_configuration:
-        operation: getAllDeviceSettings
+        operation: "getAllDeviceSettings"
         path_params:
-          domainUUID: '{{ domain[0].uuid }}'
-#        query_params:
-#          filter: "IFTDRAVpnAccessInterface"
+            domainUUID: "{{ domain_uuid }}"
+        query_params:
+            offset: "{{ offset }}"
+            limit: "{{ limit }}"
+            expanded: "{{ expanded }}"
