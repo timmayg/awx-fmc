@@ -23,21 +23,21 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
-    - name: 04a - Debug response
-      debug:
-        var: response
+#    - name: 04a - Debug response
+#      debug:
+#        var: response
 
-#    - name: 05 - Set expiry date fact
-#      set_fact:
-#        expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
-
-    - name: 05 - Updated Set expiry date fact
+    - name: 05 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
+#    - name: 06 - Parse the expiry date
+#      set_fact:
+#        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
+
     - name: 06 - Parse the expiry date
       set_fact:
-        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
+        expiry_datetime: "{{ expiry_date | to_datetime }}"
 
     - name: 07 - Get today's date
       set_fact:
