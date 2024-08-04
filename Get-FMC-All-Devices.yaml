@@ -1,0 +1,19 @@
+- hosts: all
+  connection: httpapi
+  tasks:
+    - name: Get Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: domain
+
+# https://developer.cisco.com/docs/fmc-ansible/getalldevice/#getalldevice
+    - name: Execute 'getAllDeviceSettings' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllDevice"
+        path_params:
+            domainUUID: "{{ domain[0].uuid }}"
+#        query_params:
+#            offset: "{{ offset }}"
+#            limit: "{{ limit }}"
+#            expanded: "{{ expanded }}"
+
