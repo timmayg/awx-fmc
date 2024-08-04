@@ -1,0 +1,13 @@
+---
+- name: Obtain and display the current date and time
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Obtain the current date and time
+      command: date +"%Y-%m-%d %H:%M:%S"
+      register: current_datetime
+
+    - name: Print the current date and time
+      debug:
+        msg: "Current date and time: {{ current_datetime.stdout }}"
