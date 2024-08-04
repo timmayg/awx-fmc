@@ -33,8 +33,7 @@
 
     - name: 05 - Updated Set expiry date fact
       set_fact:
-        expiry_date: "{{ response['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
-
+        expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
     - name: 06 - Parse the expiry date
       set_fact:
