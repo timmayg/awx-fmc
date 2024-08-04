@@ -5,7 +5,7 @@
     - name: Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
-        register: domains
+        register_as: domains
 
     - name: Debug domain_response
       debug:
