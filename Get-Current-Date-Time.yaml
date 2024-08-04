@@ -4,10 +4,18 @@
   gather_facts: false
 
   tasks:
-    - name: Obtain the current date and time
+    - name: 01 - Obtain the current date and time
       command: date +"%Y-%m-%d %H:%M:%S"
       register: current_datetime
 
-    - name: Print the current date and time
+    - name: 02 - Print the current date and time
       debug:
-        msg: "Current date and time: {{ current_datetime.stdout }}"
+        msg: "Current GMT date and time: {{ current_datetime.stdout }}"
+
+    - name: 03 - Obtain the current timezone
+      command: date +"%Z %z"
+      register: current_timezone
+
+    - name: 04 - Print the current timezone
+      debug:
+        msg: "Current timezone: {{ current_timezone.stdout }}"
