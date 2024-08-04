@@ -1,5 +1,5 @@
 ---
-- name: Obtain and display the current date and time
+- name: Obtain and display the Current Date, Time & Timezone
   hosts: localhost
   gather_facts: false
 
@@ -10,7 +10,7 @@
 
     - name: 02 - Print the current date and time
       debug:
-        msg: "Current GMT date and time: {{ current_datetime.stdout }}"
+        msg: "Current UTC date and time: {{ current_datetime.stdout }}"
 
     - name: 03 - Obtain the current timezone
       command: date +"%Z %z"
