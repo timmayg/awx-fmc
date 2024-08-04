@@ -1,6 +1,5 @@
 ---
 collections:
   - name: community.crypto
-  - name: cisco.ios
-  - name: cisco.ise
+  - name: community.general
   - name: cisco.fmcansible
