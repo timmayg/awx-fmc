@@ -23,6 +23,10 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
+    - name: 04a - Debug response
+      debug:
+        var: response
+
     - name: 05 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
