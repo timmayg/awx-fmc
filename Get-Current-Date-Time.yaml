@@ -1,21 +1,24 @@
 ---
-- name: Obtain and display the Current Date, Time & Timezone
+# NEW
+- name: Obtain and display the current date, time, and timezone
   hosts: localhost
-  gather_facts: false
+  gather_facts: true  # Set this to true to gather facts including date and time
 
   tasks:
-    - name: 01 - Obtain the current date and time
-      command: date +"%Y-%m-%d %H:%M:%S"
-      register: current_datetime
+    - name: Obtain the current date and time
+      set_fact:
+        current_datetime: "{{ ansible_date_time.iso8601 }}"
 
-    - name: 02 - Print the current date and time
+    - name: Print the current date and time
       debug:
-        msg: "Current UTC date and time: {{ current_datetime.stdout }}"
+        msg: "Current date and time: {{ current_datetime }}"
 
-    - name: 03 - Obtain the current timezone
-      command: date +"%Z %z"
-      register: current_timezone
+    - name: Obtain the current timezone
+      set_fact:
+        current_timezone: "{{ ansible_date_time.tz }}"
 
-    - name: 04 - Print the current timezone
+    - name: Print the current timezone
       debug:
-        msg: "Current timezone: {{ current_timezone.stdout }}"
+        msg: "Current timezone: {{ current_timezone }}"
+
+
