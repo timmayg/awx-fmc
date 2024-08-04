@@ -12,13 +12,13 @@
 
 
 # https://developer.cisco.com/docs/fmc-ansible/getravpngateway/#example
-- name: Execute 'getRaVpnGateway' operation
-  cisco.fmcansible.fmc_configuration:
-    operation: "getRaVpnGateway"
-    path_params:
-        domainUUID: "{{ domain_uuid }}"
-#    query_params:
-#        offset: "{{ offset }}"
-#        limit: "{{ limit }}"
-#        expanded: "{{ expanded }}"
+    - name: Execute 'getRaVpnGateway' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getRaVpnGateway"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+    #    query_params:
+    #        offset: "{{ offset }}"
+    #        limit: "{{ limit }}"
+    #        expanded: "{{ expanded }}"
 
