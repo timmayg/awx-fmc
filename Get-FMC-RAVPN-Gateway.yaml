@@ -7,7 +7,7 @@
         operation: getAllDomain
         register_as: domains
 
-    - name: 02 - Debug domain_response
+    - name: 02 - Debug Domain Response
       debug:
         var: domains
 
@@ -35,28 +35,31 @@
 #      set_fact:
 #        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
 
-    - name: 06 - Parse the expiry date
-      set_fact:
-        expiry_datetime: "{{ expiry_date | to_datetime }}"
+#    - name: 06 - Parse the expiry date
+#      set_fact:
+#        expiry_datetime: "{{ expiry_date | to_datetime }}"
 
     - name: 07 - Get today's date
       set_fact:
         today_date: "{{ ansible_date_time.iso8601 | community.general.date_parse }}"
 
-    - name: 08 - Calculate difference between expiry date and today
-      set_fact:
-        days_until_expiry: "{{ (expiry_datetime - today_date).days }}"
-
-    - name: 09 - Check if the expiry date is before today or within 30 days
+    - name: 07a - Debug response
       debug:
-        msg: >
-          {% if days_until_expiry < 0 %}
-            The certificate has already expired.
-          {% elif days_until_expiry <= 30 %}
-            The certificate will expire within the next 30 days.
-          {% else %}
-            The certificate is valid for more than 30 days.
-          {% endif %}
+        var: today_date
 
 
+#    - name: 08 - Calculate difference between expiry date and today
+#      set_fact:
+#        days_until_expiry: "{{ (expiry_datetime - today_date).days }}"
 
+#    - name: 09 - Check if the expiry date is before today or within 30 days
+#      debug:
+#        msg: >
+#          {% if days_until_expiry < 0 %}
+#            The certificate has already expired.
+#          {% elif days_until_expiry <= 30 %}
+#            The certificate will expire within the next 30 days.
+#          {% else %}
+#            The certificate is valid for more than 30 days.
+#          {% endif %}
+#
