@@ -1,0 +1,22 @@
+- hosts: all
+  connection: httpapi
+  tasks:
+    - name: Get Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: domain
+
+
+
+# $dev_settings_uri = 'https://' + $fqdn + '/api/fmc_config/v1/domain/' + $domain_uuid + '/devices/devicesettings'
+# $dev_settings_response = Invoke-RestMethod -Method Get -Uri $dev_settings_uri -Headers $headers
+
+
+
+    - name: Get a specific Network object
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllNetworkObject
+        path_params:
+          domainUUID: '{{ domain[0].uuid }}'
+        query_params:
+          filter: "IFTDRAVpnAccessInterface"
