@@ -39,12 +39,10 @@
       set_fact:
         expiry_datetime: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
-
-
 ### FAILING HERE 
-    - name: 05 - Convert Expiry Date string to DateTime Object
-      set_fact:
-        expiry_datetime: "{{ expiry_date | to_datetime }}"
+#    - name: 05 - Convert Expiry Date string to DateTime Object
+#      set_fact:
+#        expiry_datetime: "{{ expiry_date | to_datetime }}"
 
     - name: 06 - Obtain the Current Date Time
       set_fact:
