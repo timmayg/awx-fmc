@@ -1,13 +1,13 @@
 - hosts: all
   connection: httpapi
   tasks:
-    - name: Get Domain
+    - name: 01 - Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domain
 
 # https://developer.cisco.com/docs/fmc-ansible/getalldevice/#getalldevice
-    - name: Execute 'getAllDevice' operation
+    - name: 02 - Execute 'getAllDevice' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllDevice"
         path_params:

@@ -2,15 +2,15 @@
 - hosts: all
   connection: httpapi
   tasks:
-    - name: Get Domain
+    - name: 01 - Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domains
 
-    - name: Debug domain_response
+    - name: 02 - Debug domain_response
       debug:
         var: domains
 
-    - name: Set domain_uuid
+    - name: 03 - Set domain_uuid
       set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
