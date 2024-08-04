@@ -43,22 +43,22 @@
       set_fact:
         current_datetime: "{{ ansible_date_time.iso8601 }}"
 
-    - name: 07a - Debug response
-      debug:
-        var: current_datetime
-
-#    - name: 08 - Calculate difference between expiry date and today
-#      set_fact:
-#        days_until_expiry: "{{ (expiry_datetime - today_date).days }}"
-
-#    - name: 09 - Check if the expiry date is before today or within 30 days
+#    - name: 07a - Debug response
 #      debug:
-#        msg: >
-#          {% if days_until_expiry < 0 %}
-#            The certificate has already expired.
-#          {% elif days_until_expiry <= 30 %}
-#            The certificate will expire within the next 30 days.
-#          {% else %}
-#            The certificate is valid for more than 30 days.
-#          {% endif %}
-#
+#        var: current_datetime
+
+    - name: 08 - Calculate difference between expiry date and today
+      set_fact:
+        days_until_expiry: "{{ (expiry_date - current_datetime).days }}"
+
+    - name: 09 - Check if the expiry date is before today or within 30 days
+      debug:
+        msg: >
+          {% if days_until_expiry < 0 %}
+            The certificate has already expired.
+          {% elif days_until_expiry <= 30 %}
+            The certificate will expire within the next 30 days.
+          {% else %}
+            The certificate is valid for more than 30 days.
+          {% endif %}
+
