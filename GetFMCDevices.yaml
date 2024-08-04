@@ -12,6 +12,6 @@
         path_params:
             domainUUID: "{{ domain[0].uuid }}"
         query_params:
-            offset: "{{ offset }}"
-            limit: "{{ limit }}"
+#            offset: "{{ offset }}"
+#            limit: "{{ limit }}"
             expanded: "{{ expanded }}"
