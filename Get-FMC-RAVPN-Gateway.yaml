@@ -39,14 +39,13 @@
 #      set_fact:
 #        expiry_datetime: "{{ expiry_date | to_datetime }}"
 
-    - name: 07 - Get today's date
+    - name: 07 - Obtain the current date and time
       set_fact:
-        today_date: "{{ ansible_date_time.iso8601 | community.general.date_parse }}"
+        current_datetime: "{{ ansible_date_time.iso8601 }}"
 
     - name: 07a - Debug response
       debug:
-        var: today_date
-
+        var: current_datetime
 
 #    - name: 08 - Calculate difference between expiry date and today
 #      set_fact:
