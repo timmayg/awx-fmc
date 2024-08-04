@@ -10,7 +10,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getAllDeviceSettings"
         path_params:
-            domainUUID: "{{ domain_uuid }}"
+            domainUUID: "{{ domain[0].uuid }}"
         query_params:
             offset: "{{ offset }}"
             limit: "{{ limit }}"
