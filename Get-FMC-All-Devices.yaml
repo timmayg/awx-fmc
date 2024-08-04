@@ -7,7 +7,7 @@
         register_as: domain
 
 # https://developer.cisco.com/docs/fmc-ansible/getalldevice/#getalldevice
-    - name: Execute 'getAllDeviceSettings' operation
+    - name: Execute 'getAllDevice' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllDevice"
         path_params:

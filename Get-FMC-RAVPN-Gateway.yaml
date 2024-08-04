@@ -1,0 +1,24 @@
+- hosts: all
+  connection: httpapi
+  tasks:
+    - name: Get Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: domain
+
+    - name: Set domain_uuid
+      set_fact:
+        domain_uuid: "{{ domain['response'][0]['uuid'] }}"
+
+
+# https://developer.cisco.com/docs/fmc-ansible/getravpngateway/#example
+- name: Execute 'getRaVpnGateway' operation
+  cisco.fmcansible.fmc_configuration:
+    operation: "getRaVpnGateway"
+    path_params:
+        domainUUID: "{{ domain_uuid }}"
+#    query_params:
+#        offset: "{{ offset }}"
+#        limit: "{{ limit }}"
+#        expanded: "{{ expanded }}"
+
