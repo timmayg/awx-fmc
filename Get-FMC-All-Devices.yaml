@@ -4,7 +4,7 @@
     - name: Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
-        register_as: domain
+        register: domain
 
 # https://developer.cisco.com/docs/fmc-ansible/getalldevice/#getalldevice
     - name: Execute 'getAllDevice' operation

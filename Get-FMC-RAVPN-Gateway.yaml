@@ -5,11 +5,11 @@
     - name: Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
-        register_as: domain
+        register: domains
 
     - name: Set domain_uuid
       set_fact:
-        domain_uuid: "{{ domain['response'][0]['uuid'] }}"
+        domain_uuid: "{{ domains['response'][0]['uuid'] }}"
 
 
 # https://developer.cisco.com/docs/fmc-ansible/getravpngateway/#example
