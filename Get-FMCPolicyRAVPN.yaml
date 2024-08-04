@@ -15,8 +15,8 @@
 
     - name: Get a specific Network object
       cisco.fmcansible.fmc_configuration:
-        operation: getAllNetworkObject
+        operation: getAllDeviceSettings
         path_params:
           domainUUID: '{{ domain[0].uuid }}'
-        query_params:
-          filter: "IFTDRAVpnAccessInterface"
+#        query_params:
+#          filter: "IFTDRAVpnAccessInterface"
