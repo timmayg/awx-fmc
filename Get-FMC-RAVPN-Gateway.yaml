@@ -27,6 +27,7 @@
 #      debug:
 #        var: response
 
+
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
@@ -43,9 +44,13 @@
       set_fact:
         current_datetime: "{{ ansible_date_time.iso8601 }}"
 
+    - name: 06 - Set Current Date Time
+      set_fact:
+        current_datetime: "{{ lookup('pipe', 'date +%Y-%m-%dT%H:%M:%S') }}"
+    
     - name: 07 - Convert Current Date Time to DateTime Object
       set_fact:
-        current_datetime: "{{ current_datetime | to_datetime }}"
+        current_datetime_obj: "{{ current_datetime | to_datetime }}"
 
 
 #    - name: 07a - Debug response
