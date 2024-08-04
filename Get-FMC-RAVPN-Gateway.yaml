@@ -27,15 +27,21 @@
 #      debug:
 #        var: response
 
+#    - name: 04a - Parse the expiry date
+#      set_fact:
+#        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
 
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
-#    - name: 04a - Parse the expiry date
-#      set_fact:
-#        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
+    - name: 05 - Convert Expiry Date string to DateTime Object
+      set_fact:
+        expiry_datetime: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
+
+
+### FAILING HERE 
     - name: 05 - Convert Expiry Date string to DateTime Object
       set_fact:
         expiry_datetime: "{{ expiry_date | to_datetime }}"
