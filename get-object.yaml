@@ -12,4 +12,4 @@
         path_params:
           domainUUID: '{{ domain[0].uuid }}'
         query_params:
-          filter: "nameOrValue:test-network4"
+          filter: "nameOrValue:ad1"
