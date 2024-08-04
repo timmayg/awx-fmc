@@ -23,14 +23,6 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
-#    - name: 03a - Debug response
-#      debug:
-#        var: response
-
-#    - name: 04a - Parse the expiry date
-#      set_fact:
-#        expiry_datetime: "{{ expiry_date | community.general.date_parse }}"
-
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
@@ -39,18 +31,15 @@
       set_fact:
         expiry_datetime: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
-### FAILING HERE 
-#    - name: 05 - Convert Expiry Date string to DateTime Object
-#      set_fact:
-#        expiry_datetime: "{{ expiry_date | to_datetime }}"
+
 
     - name: 06 - Obtain the Current Date Time
       set_fact:
         current_datetime: "{{ ansible_date_time.iso8601 }}"
 
-    - name: 07 - Set Current Date Time
-      set_fact:
-        current_datetime: "{{ lookup('pipe', 'date +%Y-%m-%dT%H:%M:%S') }}"
+#    - name: 07 - Set Current Date Time
+#      set_fact:
+#        current_datetime: "{{ lookup('pipe', 'date +%Y-%m-%dT%H:%M:%S') }}"
     
 #    - name: 07 - Convert Current Date Time to DateTime Object
 #      set_fact:
