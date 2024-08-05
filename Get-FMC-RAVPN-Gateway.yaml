@@ -32,6 +32,10 @@
       set_fact:
         expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
+    - name: 05a - Debug response
+      debug:
+        var: expiry_date_obj
+
 
 
     - name: 06 - Obtain the Current Date Time
@@ -42,7 +46,9 @@
       set_fact:
         current_date_obj: "{{ current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
-
+    - name: 07a - Debug response
+      debug:
+        var: current_date_obj
 
 #    - name: 07 - Set Current Date Time
 #      set_fact:
@@ -60,6 +66,8 @@
     - name: 08 - Calculate difference between expiry date and today
       set_fact:
         days_until_expiry: "{{ (expiry_date_obj - current_date_obj).days }}"
+
+
 
     - name: 09 - Check if the expiry date is before today or within 30 days
       debug:
