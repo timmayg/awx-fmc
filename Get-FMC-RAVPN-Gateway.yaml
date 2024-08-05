@@ -39,6 +39,11 @@
       set_fact:
         current_date: "{{ ansible_date_time.iso8601 }}"
 
+    - name: 06a - Debug current_date_obj
+      debug:
+        msg: "current_date is of type {{ current_date.__class__.__name__ }} and value {{ current_date }}"
+
+
     - name: 07 - Convert Current Date Time string to DateTime Object
       set_fact:
         current_date_obj: "{{ current_date | ansible.builtin.to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
