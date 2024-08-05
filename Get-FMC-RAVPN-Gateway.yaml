@@ -29,7 +29,7 @@
 
     - name: 05 - Convert Expiry Date string to DateTime Object
       set_fact:
-        expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+        expiry_date_obj: "{{ expiry_date | ansible.builtin.to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
     - name: 05a - Debug expiry_date_obj
       debug:
@@ -41,7 +41,7 @@
 
     - name: 07 - Convert Current Date Time string to DateTime Object
       set_fact:
-        current_date_obj: "{{ current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+        current_date_obj: "{{ current_date | ansible.builtin.to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
     - name: 07a - Debug current_date_obj
       debug:
