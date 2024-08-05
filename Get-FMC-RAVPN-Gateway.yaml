@@ -23,7 +23,6 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
-
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
@@ -32,11 +31,9 @@
       set_fact:
         expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
-    - name: 05a - Debug response
+    - name: 05a - Debug expiry_date_obj
       debug:
-        var: expiry_date_obj
-
-
+        msg: "expiry_date_obj is of type {{ expiry_date_obj.__class__.__name__ }} and value {{ expiry_date_obj }}"
 
     - name: 06 - Obtain the Current Date Time
       set_fact:
@@ -46,28 +43,17 @@
       set_fact:
         current_date_obj: "{{ current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
-    - name: 07a - Debug response
+    - name: 07a - Debug current_date_obj
       debug:
-        var: current_date_obj
-
-#    - name: 07 - Set Current Date Time
-#      set_fact:
-#        current_datetime: "{{ lookup('pipe', 'date +%Y-%m-%dT%H:%M:%S') }}"
-    
-#    - name: 07 - Convert Current Date Time to DateTime Object
-#      set_fact:
-#        current_datetime_obj: "{{ current_datetime | to_datetime }}"
-
-
-#    - name: 07a - Debug response
-#      debug:
-#        var: current_datetime
+        msg: "current_date_obj is of type {{ current_date_obj.__class__.__name__ }} and value {{ current_date_obj }}"
 
     - name: 08 - Calculate difference between expiry date and today
       set_fact:
         days_until_expiry: "{{ (expiry_date_obj - current_date_obj).days }}"
 
-
+    - name: 08a - Debug days_until_expiry
+      debug:
+        var: days_until_expiry
 
     - name: 09 - Check if the expiry date is before today or within 30 days
       debug:
