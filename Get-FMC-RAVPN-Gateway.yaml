@@ -23,19 +23,26 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
+
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
     - name: 05 - Convert Expiry Date string to DateTime Object
       set_fact:
-        expiry_datetime: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+        expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 
 
 
     - name: 06 - Obtain the Current Date Time
       set_fact:
-        current_datetime: "{{ ansible_date_time.iso8601 }}"
+        current_date: "{{ ansible_date_time.iso8601 }}"
+
+    - name: 07 - Convert Current Date Time string to DateTime Object
+      set_fact:
+        current_date_obj: "{{ current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+
+
 
 #    - name: 07 - Set Current Date Time
 #      set_fact:
@@ -52,7 +59,7 @@
 
     - name: 08 - Calculate difference between expiry date and today
       set_fact:
-        days_until_expiry: "{{ (expiry_date - current_datetime).days }}"
+        days_until_expiry: "{{ (expiry_date_obj - current_date_obj).days }}"
 
     - name: 09 - Check if the expiry date is before today or within 30 days
       debug:
