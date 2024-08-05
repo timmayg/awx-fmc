@@ -39,7 +39,7 @@
       set_fact:
         current_date: "{{ ansible_date_time.iso8601 }}"
 
-    - name: 06a - Debug current_date_obj
+    - name: 06a - Debug current_date
       debug:
         msg: "current_date is of type {{ current_date.__class__.__name__ }} and value {{ current_date }}"
 
