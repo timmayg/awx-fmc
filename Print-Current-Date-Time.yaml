@@ -10,4 +10,5 @@
 
     - name: Display cached current_datetime fact
       debug:
-        var: ansible_facts.current_datetime
+#        var: ansible_facts.current_datetime
+        var: hostvars[inventory_hostname]['current_datetime']
