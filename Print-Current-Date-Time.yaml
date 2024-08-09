@@ -1,0 +1,13 @@
+---
+#
+# This looks for a Cached Fact and Prints it to the screen
+#
+- hosts: all
+  tasks:
+    - name: Load cached facts
+      setup:
+        gather_subset: "!all"
+
+    - name: Display cached current_datetime fact
+      debug:
+        var: ansible_facts.current_datetime
