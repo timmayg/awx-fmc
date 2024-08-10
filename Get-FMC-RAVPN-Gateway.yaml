@@ -31,10 +31,16 @@
 #    - name: 05 - Convert Expiry Date string to DateTime Object
 #      set_fact:
 #        expiry_date_obj: "{{ expiry_date | ansible.builtin.to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+#                                                      "expiry_date": "2024-04-11T00:43:18Z"
 
-    - name: 05 - Convert Expiry Date string to DateTime Object
+    - name: 05 - Convert Expiry Date string to Date Object
       set_fact:
-        expiry_date_obj: "{{ expiry_date | ansible.builtin.to_datetime }}"
+        expiry_date_only: "{{ (expiry_date | ansible.builtin.to_datetime).strftime('%Y-%m-%d') }}"
+
+    - name: 05a - Debug expiry_date_only
+      debug:
+        msg: "expiry_date_only is {{ expiry_date_only }}"
+
 
     - name: 05a - Debug expiry_date_obj
       debug:
