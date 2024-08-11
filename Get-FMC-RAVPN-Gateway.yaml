@@ -35,7 +35,7 @@
 
     - name: Debug an Object
       debug:
-        msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
+        msg: "Object evaluated is {{ expiry_date_obj.__class__.__name__ }} and value {{ expiry_date_obj }}"
 
 
     - name: Timmay HARD STOP this Playbook
