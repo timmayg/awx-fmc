@@ -28,19 +28,17 @@
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
-    - name: 04a Debug the date returned -- DO NOT REMOVE
+    - name: 04a DO NOT REMOVE THIS TASK -- Debug the date returned from the FMC
       debug:
         msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
-
-    - name: 05 - Parse Expiry Date string to Date Object
+    - name: 05 - Remove T and Z from expiry_date
       set_fact:
-        expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+        cleaned_expiry_date: "{{ expiry_date | regex_replace('T', ' ') | regex_replace('Z', '') }}"
 
-#    - name: 05 - Convert Expiry Date string to Date Object
-#      set_fact:
-#        expiry_date_obj: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')).strftime('%Y-%m-%d') }}"
-
+    - name: 06 - Parse Expiry Date string to Date Object
+      set_fact:
+        expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
 
     - name: Debug an Object
       debug:
@@ -50,6 +48,17 @@
     - name: Timmay HARD STOP this Playbook
       meta: end_play
       when: 1 == 1
+
+
+
+
+
+
+
+
+
+
+
 
 
     - name: 05 - Convert Expiry Date string to Date Object
