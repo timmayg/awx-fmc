@@ -32,6 +32,25 @@
       debug:
         msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
+    - name: 05 - Convert expiry_date to datetime object
+      set_fact:
+        expiry_date_datetime: "{{ expiry_date | regex_replace('T', ' ') | regex_replace('Z', '') | to_datetime }}"
+
+
+    - name: 05z DO NOT REMOVE -- Debug an Object
+      debug:
+        msg: "Object evaluated is {{ expiry_date_obj.__class__.__name__ }} and value {{ expiry_date_obj }}"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+      when: 1 == 1
+
+
+
+
+
+
     - name: 05 - Remove T and Z from expiry_date
       set_fact:
         cleaned_expiry_date: "{{ expiry_date | regex_replace('T', ' ') | regex_replace('Z', '') }}"
@@ -42,7 +61,7 @@
 
     - name: 06y - Create a fact out of shittext
       set_fact:
-        cleaned_expiry_date: {{ "2016-08-14 20:00:12" | to_datetime  }}
+        cleaned_expiry_date: "{{ "2016-08-14 20:00:12" | to_datetime }}"
 #        expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
 
     - name: 06z DO NOT REMOVE -- Debug an Object
