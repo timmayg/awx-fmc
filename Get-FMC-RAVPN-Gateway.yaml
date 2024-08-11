@@ -34,7 +34,7 @@
 
     - name: 05 - Convert expiry_date to datetime object
       set_fact:
-        expiry_date_datetime: "{{ expiry_date | regex_replace('T', ' ') | regex_replace('Z', '') | to_datetime }}"
+        expiry_date_datetime: {{ expiry_date | from_yaml | to_datetime }}
 
 
     - name: 05z DO NOT REMOVE -- Debug an Object
