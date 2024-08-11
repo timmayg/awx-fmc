@@ -28,7 +28,7 @@
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
-    - name: 04a DO NOT REMOVE THIS TASK -- Debug the date returned from the FMC
+    - name: 04z DO NOT REMOVE -- Debug the date returned from the FMC
       debug:
         msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
@@ -40,7 +40,12 @@
       set_fact:
         expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
 
-    - name: Debug an Object
+    - name: 06y - Create a fact out of shittext
+      set_fact:
+        cleaned_expiry_date: {{ (("2016-08-14 20:00:12" | to_datetime)  }}
+#        expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
+
+    - name: 06z DO NOT REMOVE -- Debug an Object
       debug:
         msg: "Object evaluated is {{ expiry_date_obj.__class__.__name__ }} and value {{ expiry_date_obj }}"
 
