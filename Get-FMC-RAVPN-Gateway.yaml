@@ -28,6 +28,11 @@
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
+    - name: 04a Debug the date returned -- DO NOT REMOVE
+      debug:
+        msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
+
+
     - name: 05 - Parse Expiry Date string to Date Object
       set_fact:
         expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
