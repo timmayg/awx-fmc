@@ -23,12 +23,17 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
+
     - name: 04 - Set expiry date fact
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
+    - name: 05 - Convert Expiry Date string to Date Object
+      set_fact:
+        expiry_date_obj: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')).strftime('%Y-%m-%d') }}"
 
-    - name: 04a - Debug an Object
+
+    - name: Debug an Object
       debug:
         msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
@@ -47,7 +52,7 @@
       meta: end_play
       when: 1 == 1
 
-      
+
 
 #
 #
