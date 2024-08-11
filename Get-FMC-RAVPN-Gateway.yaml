@@ -59,9 +59,9 @@
       set_fact:
         expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
 
-    - name: 06y - Create a fact out of shittext
-      set_fact:
-        cleaned_expiry_date: "{{ "2016-08-14 20:00:12" | to_datetime }}"
+#   - name: 06y - Create a fact out of shittext
+#      set_fact:
+#        cleaned_expiry_date: "{{ "2016-08-14 20:00:12" | to_datetime }}"
 #        expiry_date_obj: "{{ cleaned_expiry_date | to_datetime('%Y-%m-%d %H:%M:%S') }}"
 
     - name: 06z DO NOT REMOVE -- Debug an Object
