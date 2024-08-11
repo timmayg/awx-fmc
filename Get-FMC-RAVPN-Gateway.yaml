@@ -39,7 +39,7 @@
 
     - name: 05z DO NOT REMOVE -- Debug an Object
       debug:
-        msg: "Object evaluated is {{ expiry_date_obj.__class__.__name__ }} and value {{ expiry_date_obj }}"
+        msg: "Object evaluated is {{ expiry_date_datetime.__class__.__name__ }} and value {{ expiry_date_datetime }}"
 
 
     - name: Timmay HARD STOP this Playbook
