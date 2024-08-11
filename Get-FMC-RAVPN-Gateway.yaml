@@ -35,7 +35,7 @@
 
     - name: 05a - Convert expiry_date to yaml
       set_fact:
-        expiry_date_yaml: "{{ expiry_date | from_yaml }}""
+        expiry_date_yaml: "{{ expiry_date | from_yaml }}"
 
     - name: 05az DO NOT REMOVE -- Debug an Object
       debug:
@@ -45,7 +45,7 @@
 
     - name: 05b - Convert yaml to datetime object
       set_fact:
-        expiry_date_datetime: "{{ expiry_date_yaml | to_datetime }}""
+        expiry_date_datetime: "{{ expiry_date_yaml | to_datetime }}"
 
     - name: 05bz DO NOT REMOVE -- Debug an Object
       debug:
