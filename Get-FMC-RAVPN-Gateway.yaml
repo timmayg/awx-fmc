@@ -27,25 +27,24 @@
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
+    - name: 05 - Convert Expiry Date string to Date Object
+      set_fact:
+        expiry_date_obj: "{{ expiry_date | from_yaml | strftime('%Y-%m-%d') }}"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+      when: 1 == 1
+#
+#
+# 
+
+
 # ChatGPT states we should remove this. 
 #    - name: 05 - Convert Expiry Date string to DateTime Object
 #      set_fact:
 #        expiry_date_obj: "{{ expiry_date | ansible.builtin.to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
 #                                                      "expiry_date": "2024-04-11T00:43:18Z"
-
-
-    - name: End the play if a condition is met
-      meta: end_play
-      when: 1 == 1
-
-
-    - name: 05 - Convert Expiry Date string to Date Object
-      set_fact:
-        expiry_date_only: "{{ expiry_date | from_yaml | strftime('%Y-%m-%d') }}"
-
-    - name: 05a - Debug expiry_date_only
-      debug:
-        msg: "expiry_date_only is {{ expiry_date_only }}"
 
 
     - name: 05a - Debug expiry_date_obj
