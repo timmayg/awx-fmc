@@ -28,9 +28,13 @@
       set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
-    - name: 05 - Convert Expiry Date string to Date Object
+    - name: 05 - Parse Expiry Date string to Date Object
       set_fact:
-        expiry_date_obj: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')).strftime('%Y-%m-%d') }}"
+        expiry_date_obj: "{{ expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') }}"
+
+#    - name: 05 - Convert Expiry Date string to Date Object
+#      set_fact:
+#        expiry_date_obj: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')).strftime('%Y-%m-%d') }}"
 
 
     - name: Debug an Object
