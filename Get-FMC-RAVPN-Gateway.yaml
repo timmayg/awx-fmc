@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Playbook to get the expiry date of the RAVPN Gateway Certificate
+  hosts: all
   connection: httpapi
   tasks:
     - name: 01 - Get Domain
@@ -7,22 +8,20 @@
         operation: getAllDomain
         register_as: domains
 
-#    - name: 01a - Debug Domain Response
-#      debug:
-#        var: domains
+    - name: 01a - Debug Domain Response
+      debug:
+        var: domains
 
     - name: 02 - Set domain_uuid
       set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
-# https://developer.cisco.com/docs/fmc-ansible/getravpngateway/#example
     - name: 03 - Execute 'getRaVpnGateway' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
       register: response
-
 
     - name: 04 - Set expiry date fact
       set_fact:
