@@ -38,12 +38,12 @@
 #    - debug:
 #        var: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")).total_seconds()
 
-#    - debug:
-#        var: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")).days()
-
     - debug:
-        msg: "dates are within 30 days"
-      when: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) < 86400*30 
+        var: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")).days()
+
+#    - debug:
+#        msg: "dates are within 30 days"
+#      when: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) < 86400*30 
 
 ##
 ##  Delete everything below here
