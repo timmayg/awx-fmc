@@ -36,6 +36,9 @@
         current_date: "{{ ansible_date_time.iso8601 }}"
 
     - debug:
+        var: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")).total_seconds()
+
+    - debug:
         var: ( current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ") - expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")).days()
 
 
