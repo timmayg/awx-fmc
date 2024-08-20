@@ -27,9 +27,9 @@
       ansible.builtin.set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
-#    - name: 04z DO NOT REMOVE -- Debug the date returned from the FMC
-#      debug:
-#        msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
+    - name: 04z DO NOT REMOVE -- Debug the date returned from the FMC
+      ansible.builtin.debug:
+        msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
     - name: 05 - Obtain Current Time
       ansible.builtin.set_fact:
