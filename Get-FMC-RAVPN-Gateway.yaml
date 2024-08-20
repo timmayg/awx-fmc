@@ -47,6 +47,20 @@
       debug:
         var: days_until_expiry
 
+    - name: Set fact based on days_until_expiry
+      ansible.builtin.set_fact:
+        action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+      when: 1 == 1
+
+
+
+
     - name: 09 - Check if the expiry date is before today or within 30 days
       debug:
         msg: >
@@ -57,8 +71,6 @@
           {% else %}
           The certificate is valid for more than 30 days.
           {% endif %}
-
-
 
 
 
@@ -92,12 +104,6 @@
 #    - name: 05bz DO NOT REMOVE -- Debug an Object
 #      debug:
 #        msg: "Object evaluated is {{ expiry_date_datetime.__class__.__name__ }} and value {{ expiry_date_datetime }}"
-
-
-
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-      when: 1 == 1
 
 
 
