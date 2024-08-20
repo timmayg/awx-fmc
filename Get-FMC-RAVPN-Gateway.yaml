@@ -32,7 +32,7 @@
 #        msg: "Object evaluated is {{ expiry_date.__class__.__name__ }} and value {{ expiry_date }}"
 
     - name: 05 - Obtain Current Time
-      set_fact:
+      ansible.builtin.set_fact:
         current_date: "{{ ansible_date_time.iso8601 }}"
 
     - debug:
