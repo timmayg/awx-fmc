@@ -24,7 +24,7 @@
       register: response
 
     - name: 04 - Set expiry date fact
-      set_fact:
+      ansible.builtin.set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
 
 #    - name: 04z DO NOT REMOVE -- Debug the date returned from the FMC
@@ -55,7 +55,7 @@
     - name: Set fact based on days_until_expiry
       ansible.builtin.set_fact:
         action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
-        
+
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
