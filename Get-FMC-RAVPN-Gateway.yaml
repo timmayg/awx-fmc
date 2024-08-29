@@ -58,6 +58,7 @@
 #        - "{{ days_until_expiry }}"
 #        - "{{ days_until_expiry | type_debug }}"
 
+
     - name: Set fact based on days_until_expiry
       ansible.builtin.set_fact:
         action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
