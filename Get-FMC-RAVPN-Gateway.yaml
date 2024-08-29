@@ -16,7 +16,7 @@
       set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
-    - name: 03 - Execute 'getRaVpnGateway' operation
+    - name: 03 - Get info from FMC getRaVpnGateway
       cisco.fmcansible.fmc_configuration:
         operation: "getRaVpnGateway"
         path_params:
@@ -36,13 +36,13 @@
         current_date: "{{ ansible_date_time.iso8601 }}"
 
 
-    - name: 05z DO NOT REMOVE -- Debug the date returned from the FMC
-      ansible.builtin.debug:
-        msg: "Object evaluated is {{ current_date.__class__.__name__ }} and value {{ current_date }}"
+#    - name: 05z DO NOT REMOVE -- Debug the date returned from the FMC
+#      ansible.builtin.debug:
+#        msg: "Object evaluated is {{ current_date.__class__.__name__ }} and value {{ current_date }}"
 
 
-    - debug:
-        var: (expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) - (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))
+#    - debug:
+#        var: (expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) - (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))
 
     - name: 08 - Calculate difference between expiry date and today
       set_fact:
@@ -53,10 +53,10 @@
       debug:
         var: days_until_expiry
 
-    - debug:
-        msg: 
-        - "{{ days_until_expiry }}"
-        - "{{ days_until_expiry | type_debug }}"
+#    - debug:
+#        msg: 
+#        - "{{ days_until_expiry }}"
+#        - "{{ days_until_expiry | type_debug }}"
 
     - name: Set fact based on days_until_expiry
       ansible.builtin.set_fact:
