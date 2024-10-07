@@ -9,9 +9,25 @@
         operation: getAllDomain
         register_as: domains
 
-#    - name: Print
-#      debug:
-#        var: domains
+    - name: Print
+      debug:
+        var: domains
+
+    - name: 0x - Get Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+      register: domains_register
+
+    - name: Print
+      debug:
+        var: domains_register
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
 
     - name: 02 - Set domain_uuid
       set_fact:
@@ -62,7 +78,6 @@
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
-      when: 1 == 1
 
 
 
