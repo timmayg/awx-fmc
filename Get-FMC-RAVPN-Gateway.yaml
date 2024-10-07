@@ -2,15 +2,16 @@
 - name: Playbook to get the expiry date of the RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
+
   tasks:
     - name: 01 - Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
-        register_as: domains
+      register: domains
 
-    - name: 01a - Debug Domain Response
-      debug:
-        var: domains
+#    - name: Print
+#      debug:
+#        var: domains
 
     - name: 02 - Set domain_uuid
       set_fact:
@@ -59,14 +60,15 @@
 #        - "{{ days_until_expiry | type_debug }}"
 
 
-    - name: Set fact based on days_until_expiry
-      ansible.builtin.set_fact:
-        action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
-
-
     - name: Timmay HARD STOP this Playbook
       meta: end_play
       when: 1 == 1
+
+
+
+    - name: Set fact based on days_until_expiry
+      ansible.builtin.set_fact:
+        action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
 
 
 
