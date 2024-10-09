@@ -79,6 +79,23 @@
 
 
 
+    - name: End playbook if the certificate is valid for more than 30 days
+      ansible.builtin.meta: end_play
+      when: days_until_expiry > 30
+
+
+    - name: Proceed with the next task (cert expiry in less than 30 days)
+      ansible.builtin.debug:
+        msg: "The certificate is expiring in {{ days_remaining }} days and needs to be renewed."
+      when: days_until_expiry <= 30
+
+
+
+
+
+
+
+
     - name: Set fact based on days_until_expiry
       ansible.builtin.set_fact:
         action: "{{ 'go_forward' if days_until_expiry <= 30 else 'stop' }}"
