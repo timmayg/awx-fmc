@@ -74,16 +74,30 @@
 #        - "{{ days_until_expiry | type_debug }}"
 
 
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+    - name: Extract expiry date and calculate days remaining
+      set_fact:
+        expiry_date: "{{ response.response.items[0].certEnrollments[0].certificateInfo.expiry }}"
+        days_remaining: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') - lookup('pipe', 'date +%Y-%m-%dT%H:%M:%SZ' | to_datetime('%Y-%m-%dT%H:%M:%SZ'))).days }}"
+      
+    - name: Debug expiry date and days remaining
+      debug:
+        msg:
+          - "Certificate Expiry Date: {{ expiry_date }}"
+          - "Days Remaining: {{ days_remaining }}"
 
     - name: End playbook if the certificate is valid for more than 30 days
-      ansible.builtin.meta: end_play
-      when: days_until_expiry > 30
-
+      meta: end_play
+      when: days_remaining > 30
 
     - name: Proceed with the next task (cert expiry in less than 30 days)
-      ansible.builtin.debug:
+      debug:
         msg: "The certificate is expiring in {{ days_remaining }} days and needs to be renewed."
-      when: days_until_expiry <= 30
+      when: days_remaining <= 30
+
 
 
 
