@@ -36,6 +36,35 @@
             domainUUID: "{{ domain_uuid }}"
       register: response
 
+
+
+    - name: 04 - Set expiry date fact
+      ansible.builtin.set_fact:
+        expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
+
+    - name: 05 - Obtain Current Time
+      ansible.builtin.set_fact:
+        current_date: "{{ ansible_date_time.iso8601 }}"
+
+    - name: 06 - Calculate difference between expiry date and today
+      set_fact:
+        days_until_expiry: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ') - current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')).days }}"
+
+    - name: 07 - End playbook if certificate expiry is more than 30 days away
+      ansible.builtin.meta: end_play
+      when: days_until_expiry > 30
+
+    - name: 08 - Run next task if certificate expiry is less than 30 days
+      debug:
+        msg: "Certificate expires in {{ days_until_expiry }} days, running the next task."
+      when: days_until_expiry <= 30
+
+
+########################################################################
+########################################################################
+########################################################################
+########################################################################
+
     - name: 04 - Set expiry date fact
       ansible.builtin.set_fact:
         expiry_date: "{{ response['response']['items'][0]['certEnrollments'][0]['certificateInfo']['expiry'] }}"
