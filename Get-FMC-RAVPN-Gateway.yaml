@@ -74,9 +74,6 @@
 #        - "{{ days_until_expiry | type_debug }}"
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-
 
     - name: Extract expiry date and calculate days remaining
       set_fact:
