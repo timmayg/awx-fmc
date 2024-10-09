@@ -74,10 +74,6 @@
 #        - "{{ days_until_expiry | type_debug }}"
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-
-
 
     - name: End playbook if the certificate is valid for more than 30 days
       ansible.builtin.meta: end_play
@@ -89,6 +85,10 @@
         msg: "The certificate is expiring in {{ days_remaining }} days and needs to be renewed."
       when: days_until_expiry <= 30
 
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 
 
