@@ -2,35 +2,31 @@
 - name: Playbook to get the expiry date of the RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
+  gather_facts: false
 
   tasks:
-    - name: 01 - Get Domain
+
+    - name: 01 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domains
 
-    - name: Print
-      debug:
-        var: domains
-
-    - name: 0x - Get Domain
-      cisco.fmcansible.fmc_configuration:
-        operation: getAllDomain
-      register: domains_register
-
-    - name: Print
-      debug:
-        var: domains_register
-
-
-
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-
+#    - name: Print
+#      debug:
+#        var: domains
+#
+#    - name: 0x - Get Domain
+#      cisco.fmcansible.fmc_configuration:
+#        operation: getAllDomain
+#      register: domains_register
+#
+#    - name: Print
+#      debug:
+#        var: domains_register
 
 
     - name: 02 - Set domain_uuid
-      set_fact:
+      ansible.builtin.set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
     - name: 03 - Get info from FMC getRaVpnGateway
@@ -61,12 +57,12 @@
 #    - debug:
 #        var: (expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) - (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))
 
-    - name: 08 - Calculate difference between expiry date and today
+    - name: 06 - Calculate difference between expiry date and today
       set_fact:
         days_until_expiry: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) - (current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
 #       days_until_expiry: "{{ (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))" - "(expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) }}
  
-    - name: 08a - Debug days_until_expiry
+    - name: Print
       debug:
         var: days_until_expiry
 
@@ -157,8 +153,6 @@
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
-      when: 1 == 1
-
 
 
 
@@ -168,7 +162,7 @@
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
-      when: 1 == 1
+
 
 #
 #
