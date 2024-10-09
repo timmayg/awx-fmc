@@ -57,11 +57,14 @@
 #    - debug:
 #        var: (expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) - (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))
 
+
     - name: 06 - Calculate difference between expiry date and today
       set_fact:
-        days_until_expiry: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) - (current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
+        days_until_expiry: "{{ (expiry_date | to_datetime('%Y-%m-%d')) - (current_date | to_datetime('%Y-%m-%d')) }}"
+#        days_until_expiry: "{{ (expiry_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) - (current_date | to_datetime('%Y-%m-%dT%H:%M:%SZ')) }}"
 #       days_until_expiry: "{{ (current_date | to_datetime("%Y-%m-%dT%H:%M:%SZ"))" - "(expiry_date | to_datetime("%Y-%m-%dT%H:%M:%SZ")) }}
  
+
     - name: Print
       debug:
         var: days_until_expiry
