@@ -52,7 +52,7 @@
 
     - name: 07 - End playbook if certificate expiry is more than 30 days away
       ansible.builtin.meta: end_play
-      when: days_until_expiry > 30
+      when: days_until_expiry | int > 30
 
     - name: 08 - Run next task if certificate expiry is less than 30 days
       debug:
