@@ -1,0 +1,46 @@
+---
+- name: Playbook to get the expiry date of the RAVPN Gateway Certificate
+  hosts: all
+  connection: httpapi
+  gather_facts: false
+
+  tasks:
+
+    - name: 01 - Get FMC Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: domains
+
+#    - name: Print
+#      debug:
+#        var: domains
+#
+#    - name: 0x - Get Domain
+#      cisco.fmcansible.fmc_configuration:
+#        operation: getAllDomain
+#      register: domains_register
+#
+#    - name: Print
+#      debug:
+#        var: domains_register
+
+
+    - name: 02 - Set domain_uuid
+      ansible.builtin.set_fact:
+        domain_uuid: "{{ domains[0]['uuid'] }}"
+
+
+
+
+    - name: TIMMAY Stop the Playbool
+      ansible.builtin.meta: end_play
+
+
+    - name: Execute 'createValidateCertFile' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "createValidateCertFile"
+        data:
+          payloadFile: X.509 Certificate file
+          fileType: CERT
+        path_params:
+          domainUUID: "{{ domain_uuid }}"
