@@ -1,0 +1,54 @@
+---
+- name: Playbook to get the expiry date of the RAVPN Gateway Certificate
+  hosts: all
+  connection: httpapi
+  gather_facts: false
+
+  tasks:
+
+    - name: 01 - Get FMC Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: domains
+
+#    - name: Print
+#      debug:
+#        var: domains
+#
+#    - name: 0x - Get Domain
+#      cisco.fmcansible.fmc_configuration:
+#        operation: getAllDomain
+#      register: domains_register
+#
+#    - name: Print
+#      debug:
+#        var: domains_register
+
+
+    - name: 02 - Set domain_uuid
+      ansible.builtin.set_fact:
+        domain_uuid: "{{ domains[0]['uuid'] }}"
+
+    - name: 03 - Get info from FMC getRaVpnGateway
+      cisco.fmcansible.fmc_configuration:
+        operation: "getRaVpnGateway"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: ra_vpn_gateway
+
+
+
+
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
