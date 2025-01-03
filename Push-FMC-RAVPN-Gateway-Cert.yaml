@@ -1,29 +1,27 @@
 ---
-- name: Playbook to get the expiry date of the RAVPN Gateway Certificate
+- name: Get Cert from Vault
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Read a kv2 secret from Vault (using token auth)
+      community.hashi_vault.vault_kv2_get:
+        url: "https://vault.theglens.net:8200"
+        path: "lab-ftd.theglens.net"
+        auth_method: token
+        token: "{{ ansible_password }}"
+        engine_mount_point: "kv"
+      register: response
+
+
+- name: Playbook to Push a RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
   gather_facts: false
-
   tasks:
-
     - name: 01 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domains
-
-#    - name: Print
-#      debug:
-#        var: domains
-#
-#    - name: 0x - Get Domain
-#      cisco.fmcansible.fmc_configuration:
-#        operation: getAllDomain
-#      register: domains_register
-#
-#    - name: Print
-#      debug:
-#        var: domains_register
-
 
     - name: 02 - Set domain_uuid
       ansible.builtin.set_fact:
@@ -48,7 +46,6 @@
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
-
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
