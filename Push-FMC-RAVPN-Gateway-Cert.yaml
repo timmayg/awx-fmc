@@ -6,7 +6,7 @@
     - name: Read a kv2 secret from Vault (using token auth)
       community.hashi_vault.vault_kv2_get:
         url: "https://vault.theglens.net:8200"
-        path: "lab-ftd.theglens.net"
+        path: "lab-ftd.theglens.net/p12_in_base64"
         auth_method: token
         token: "{{ ansible_password }}"
         engine_mount_point: "kv"
