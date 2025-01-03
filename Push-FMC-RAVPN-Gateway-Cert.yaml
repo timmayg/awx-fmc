@@ -23,6 +23,11 @@
         engine_mount_point: "kv"
       register: cred_lab_fmc
 
+    - name: 03 - Set some Firepower Auth facts:
+      ansible.builtin.set_fact:
+        ansible_username: "{{ cred_lab_fmc.data.data.ansible_username }}"
+        ansible_password: "{{ cred_lab_fmc.data.data.ansible_password }}"
+
     - name: 02 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
