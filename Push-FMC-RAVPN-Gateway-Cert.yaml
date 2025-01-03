@@ -1,6 +1,13 @@
 ---
-- name: Get Cert from Vault
-  hosts: localhost
+#- name: Get Cert from Vault
+#  hosts: localhost
+#  gather_facts: false
+#  tasks:
+
+
+- name: Playbook to Push a RAVPN Gateway Certificate
+  hosts: all
+  connection: httpapi
   gather_facts: false
   tasks:
     - name: Read a kv2 secret from Vault (using token auth)
@@ -12,12 +19,6 @@
         engine_mount_point: "kv"
       register: response
 
-
-- name: Playbook to Push a RAVPN Gateway Certificate
-  hosts: all
-  connection: httpapi
-  gather_facts: false
-  tasks:
     - name: 01 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
