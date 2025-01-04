@@ -10,23 +10,25 @@
         url: "https://vault.theglens.net:8200"
         path: "lab-ftd.theglens.net"         #p12_in_base64"
         auth_method: token
-        token: "{{ ansible_password }}"
+        token: "{{ ansible_become_password }}"
         engine_mount_point: "kv"
       register: cert
 
-    - name: 02 - Read the Firepower Creds from Vault
-      community.hashi_vault.vault_kv2_get:
-        url: "https://vault.theglens.net:8200"
-        path: "cred_lab_fmc"         
-        auth_method: token
-        token: "{{ ansible_password }}"
-        engine_mount_point: "kv"
-      register: cred_lab_fmc
+#    - name: 02 - Read the Firepower Creds from Vault
+#      community.hashi_vault.vault_kv2_get:
+#        url: "https://vault.theglens.net:8200"
+#        path: "cred_lab_fmc"         
+#        auth_method: token
+#        token: "{{ ansible_password }}"
+#        engine_mount_point: "kv"
+#      register: cred_lab_fmc
+#
+#    - name: 03 - Set some Firepower Auth facts
+#      ansible.builtin.set_fact:
+#        ansible_username: "{{ cred_lab_fmc.data.data.ansible_username }}"
+#        ansible_password: "{{ cred_lab_fmc.data.data.ansible_password }}"
+#
 
-    - name: 03 - Set some Firepower Auth facts
-      ansible.builtin.set_fact:
-        ansible_username: "{{ cred_lab_fmc.data.data.ansible_username }}"
-        ansible_password: "{{ cred_lab_fmc.data.data.ansible_password }}"
 
     - name: 02 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
