@@ -5,8 +5,6 @@
   gather_facts: false
 
   tasks:
-
-
     - name: 01 - Read the Firepower Creds from Vault
       community.hashi_vault.vault_kv2_get:
         url: "https://vault.theglens.net:8200"
