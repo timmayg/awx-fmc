@@ -5,6 +5,21 @@
   gather_facts: false
 
   tasks:
+
+
+    - name: 01 - Read the Firepower Creds from Vault
+      community.hashi_vault.vault_kv2_get:
+        url: "https://vault.theglens.net:8200"
+        path: "cred_lab_fmc"         
+        auth_method: token
+        token: "{{ ansible_password }}"
+        engine_mount_point: "kv"
+      register: cred_lab_fmc
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
     - name: 01 - Read the Certificate from Vault
       community.hashi_vault.vault_kv2_get:
         url: "https://vault.theglens.net:8200"
@@ -14,15 +29,6 @@
         engine_mount_point: "kv"
       register: cert
 
-#    - name: 02 - Read the Firepower Creds from Vault
-#      community.hashi_vault.vault_kv2_get:
-#        url: "https://vault.theglens.net:8200"
-#        path: "cred_lab_fmc"         
-#        auth_method: token
-#        token: "{{ ansible_password }}"
-#        engine_mount_point: "kv"
-#      register: cred_lab_fmc
-#
 #    - name: 03 - Set some Firepower Auth facts
 #      ansible.builtin.set_fact:
 #        ansible_username: "{{ cred_lab_fmc.data.data.ansible_username }}"
@@ -51,10 +57,6 @@
 
 
 
-
-
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
