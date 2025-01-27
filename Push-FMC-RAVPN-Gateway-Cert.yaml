@@ -123,9 +123,9 @@
             pkcs12Content: 
               base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "ChangeThis"
+            name: "Imported on {{ ansible_date_time.date }}"
             description:  
-            overrides: 
+            # overrides: 
               # parent: 
               #  id: '00000000-0000-0ed3-0000-012884904511'
               #  type: 'CertEnrollment'
