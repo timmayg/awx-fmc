@@ -44,10 +44,10 @@
 
     - name: 05 - Get Cert Enrollment Status
       cisco.fmcansible.fmc_configuration:
-        operation: "CertEnrollmentStatus"
+        operation: "getAllInternalCertificate"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-      register: cert_status
+      register: internal_certs
 
 
     - name: Timmay HARD STOP this Playbook
