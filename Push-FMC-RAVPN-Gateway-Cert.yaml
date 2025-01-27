@@ -101,29 +101,29 @@
 
 
 # https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel/#example
-- name: XY - Execute 'updateVpnCertEnrollmentModel' operation
-  cisco.fmcansible.fmc_configuration:
-    operation: "updateVpnCertEnrollmentModel"
-    data:
-        type: CertEnrollment
-        enrollmentType: PKCS12
-        overridable: True
-        pkcs12Content: 
-          base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
-          passPhrase: 'passPhrase'
-        name: "Change This"
-        description:  
-        overrides: 
-          parent: 
-            id: '00000000-0000-0ed3-0000-012884904511'
-            type: 'CertEnrollment'
-          target: 
-            name: 'lab-ftd1'
-            id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-            type: 'Device'
-    path_params:
-        objectId: "00000000-0000-0ed3-0000-012884904511"    # TIMO: THIS IS A REQUIRED PARAMETER
-        domainUUID: "{{ domain_uuid }}"
+    - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateVpnCertEnrollmentModel"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: 
+              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'passPhrase'
+            name: "Change This"
+            description:  
+            overrides: 
+              parent: 
+                id: '00000000-0000-0ed3-0000-012884904511'
+                type: 'CertEnrollment'
+              target: 
+                name: 'lab-ftd1'
+                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+                type: 'Device'
+        path_params:
+            objectId: "00000000-0000-0ed3-0000-012884904511"    # TIMO: THIS IS A REQUIRED PARAMETER
+            domainUUID: "{{ domain_uuid }}"
 
 
 
