@@ -42,6 +42,30 @@
             domainUUID: "{{ domain_uuid }}"
       register: ra_vpn_gateway
 
+    - name: 05 - Get info from FMC getRaVpnGateway
+      cisco.fmcansible.fmc_configuration:
+        operation: "getCertEnrollmentStatus"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: cert_status
+
+
+
+# https://developer.cisco.com/docs/fmc-ansible/getting-started/#task-operations
+#
+#
+
+    - name: 06 - Push the RAVPN Gateway Certificate
+      cisco.fmcansible.fmc_configuration:
+        operation: "pushRaVpnGatewayCertificate"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+            raVpnGatewayUUID: "{{ ra_vpn_gateway['items'][0]['id'] }}"
+        data:
+            certificate: "{{ cert['data']['data']['p12_in_base64'] }}"
+            passphrase: "{{ cert['data']['data']['p12_passphrase'] }}"
+      register: push_cert
+
 
 
     - name: Timmay HARD STOP this Playbook
