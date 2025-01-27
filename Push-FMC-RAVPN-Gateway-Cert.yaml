@@ -50,6 +50,8 @@
       register: cert_status
 
 
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 # https://developer.cisco.com/docs/fmc-ansible/getting-started/#task-operations
 #
@@ -68,8 +70,6 @@
 
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
