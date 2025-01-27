@@ -28,7 +28,8 @@
     - name: 02 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
-        register_as: domains
+#        register_as: domains
+        register: domains
 
     - name: 03 - Set domain_uuid
       ansible.builtin.set_fact:
