@@ -108,8 +108,20 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_vpn_cert_enrollment_model
 
+    - name: CC - Execute 'getAllFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllFTDRAVpnModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+#        query_params:
+#            offset: "{{ offset }}"
+#            limit: "{{ limit }}"
+#            expanded: "{{ expanded }}"
+
+
+
 # https://developer.cisco.com/docs/fmc-ansible/createvpncertenrollmentmodel/
-    - name: CC - Execute 'createVpnCertEnrollmentModel' operation
+    - name: XX - Execute 'createVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
         path_params:
