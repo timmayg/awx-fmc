@@ -116,6 +116,9 @@
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 
+    - name: Print objectId
+      ansible.builtin.debug:
+        msg: "objectId is {{ ftd_vpn_model.response.items[0].id }}"
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
