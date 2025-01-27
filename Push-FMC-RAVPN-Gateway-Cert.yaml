@@ -124,8 +124,8 @@
               base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "Imported_on_{{ ansible_date_time.date }}"
-            # description:  
-            # overrides: 
+            description:  
+            overrides: 
               # parent: 
               #  id: '00000000-0000-0ed3-0000-012884904511'
               #  type: 'CertEnrollment'
