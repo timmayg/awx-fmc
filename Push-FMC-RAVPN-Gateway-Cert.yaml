@@ -25,17 +25,17 @@
       register: cert
 
 
-    - name: 02 - Get FMC Domain
+    - name: 03 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
 #        register_as: domains
         register: domains
 
-    - name: 03 - Set domain_uuid
+    - name: 04 - Set domain_uuid
       ansible.builtin.set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
-    - name: 03 - Get info from FMC getRaVpnGateway
+    - name: 05 - Get info from FMC getRaVpnGateway
       cisco.fmcansible.fmc_configuration:
         operation: "getRaVpnGateway"
         path_params:
