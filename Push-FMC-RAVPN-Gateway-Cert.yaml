@@ -62,7 +62,7 @@
             description:  
             overrides: {'parent': {'id': '00505681-AEC9-0ed3-0000-137438953475', 'type': 'CertEnrollment'}, 'target': {'name': 'deviceName', 'id': '93cdd824-6ef9-11ec-abd5-a12f5f15e4e2', 'type': 'Device'}}
         path_params:
-            objectId: "{{ object_id }}"
+            # objectId: "{{ object_id }}"
             domainUUID: "{{ domain_uuid }}"
 
 
