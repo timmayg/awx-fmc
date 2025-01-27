@@ -109,6 +109,39 @@
       register: all_vpn_cert_enrollment_model
 
 
+
+# https://developer.cisco.com/docs/fmc-ansible/createvpncertenrollmentmodel/
+    - name: XX - Execute 'createVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "createVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: 
+              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'cisco123'
+            name: "ChangeThis"
+            description:  
+            overrides: 
+              # parent: 
+              #  id: '00000000-0000-0ed3-0000-012884904511'
+              #  type: 'CertEnrollment'
+              target: 
+                name: 'lab-ftd1'
+                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+                type: 'Device'
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+
+
     - name: C1 - Execute 'getAllFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllFTDRAVpnModel"
@@ -129,29 +162,59 @@
 
 
 
-# https://developer.cisco.com/docs/fmc-ansible/createvpncertenrollmentmodel/
-    - name: XX - Execute 'createVpnCertEnrollmentModel' operation
+    - name: Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
-        operation: "createVpnCertEnrollmentModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
+        operation: "updateFTDRAVpnModel"
         data:
-            type: CertEnrollment
-            enrollmentType: PKCS12
-            overridable: True
-            pkcs12Content: 
-              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
-              passPhrase: 'cisco123'
-            name: "Change This"
-            description:  
-            overrides: 
-              parent: 
-                id: '00000000-0000-0ed3-0000-012884904511'
-                type: 'CertEnrollment'
-              target: 
-                name: 'lab-ftd1'
-                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-                type: 'Device'
+            id: "00000000-0000-0ed3-0000-004294970377"
+            name: "lab-ftd1_ravpn_policy"
+            type: RAVpn
+            description: SAMPLE PUT
+            configureSSL: True
+            configureIpsec: True
+
+            accessInterfaceSettings:
+              bypassACPolicyForDecryptTraffic: false
+              interfaceSettings:
+                - accessInterface:
+                    name: "lab-ftd1_Outside"
+                    id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+                    type: "SecurityZone"
+                  configureInterfaceIDCertificate: false
+                  enableSSL: true
+                  enableIPSecIkev2: true
+                  enableDTLS: true
+              webPort: 443
+              sslIdCertificate:
+                type: CertEnrollment
+                name: Name
+                id: UUID
+              ipsecIdCertificate:
+                type: CertEnrollment
+                name: Name
+                id: UUID
+              allowConnectionProfileSelection: true
+              dtlsPort: 443
+
+            
+            # accessInterfaceSettings: {'bypassACPolicyForDecryptTraffic': False, 'interfaceSettings': [{'accessInterface': {'name': 'Name', 'id': 'UUID', 'type': 'SecurityZone'}, 'configureInterfaceIDCertificate': False, 'enableSSL': True, 'enableIPSecIkev2': True, 'enableDTLS': True}], 'webPort': 443, 'sslIdCertificate': {'type': 'CertEnrollment', 'name': 'Name', 'id': 'UUID'}, 'ipsecIdCertificate': {'type': 'CertEnrollment', 'name': 'Name', 'id': 'UUID'}, 'allowConnectionProfileSelection': True, 'dtlsPort': 443}
+            # groupPolicies: [{'type': 'GroupPolicy', 'name': 'Name', 'id': 'UUID'}]
+            # anyConnectClientImages: [{'operatingSystem': 'Windows', 'anyconnectImage': {'name': 'Name', 'type': 'AnyConnectPackage', 'id': 'UUID'}}]
+            # externalBrowserPackage: {'name': 'Name', 'type': 'AnyConnectExternalBrowserPackage', 'id': 'UUID'}
+            # dapPolicy: {'name': 'Name', 'id': 'UUID', 'type': 'DynamicAccessPolicy'}
+            # localRealmServer: {'name': 'Name', 'id': 'UUID', 'type': 'IdentityRealm'}
+        path_params:
+            objectId: "{{ object_id }}"
+            domainUUID: "{{ domain_uuid }}"
+
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
 
 
 
@@ -213,8 +276,6 @@
 
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
