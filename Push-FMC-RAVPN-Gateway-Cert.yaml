@@ -42,7 +42,7 @@
             domainUUID: "{{ domain_uuid }}"
       register: ra_vpn_gateway
 
-    - name: 05 - Get info from FMC getRaVpnGateway
+    - name: 05 - Get Cert Enrollment Status
       cisco.fmcansible.fmc_configuration:
         operation: "getCertEnrollmentStatus"
         path_params:
