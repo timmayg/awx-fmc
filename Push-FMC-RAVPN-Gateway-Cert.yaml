@@ -136,8 +136,17 @@
 
 
 
-#    - name: Timmay HARD STOP this Playbook
-#      meta: end_play
+# https://developer.cisco.com/docs/fmc-ansible/getvpncertenrollmentmodel
+    - name: DD - Execute 'getVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getVpnCertEnrollmentModel"
+        path_params:
+            objectId: "00000000-0000-0ed3-0000-012884904511"
+            domainUUID: "{{ domain_uuid }}"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 
 
