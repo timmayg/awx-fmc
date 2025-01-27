@@ -108,6 +108,7 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_vpn_cert_enrollment_model
 
+
     - name: CC - Execute 'getAllFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllFTDRAVpnModel"
@@ -117,6 +118,15 @@
 #            offset: "{{ offset }}"
 #            limit: "{{ limit }}"
 #            expanded: "{{ expanded }}"
+      register: ftd_vpn_model
+
+
+    - name: Execute 'getFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnModel"
+        path_params:
+            objectId: "{{ ftd_vpn_model.items[0].id }}"
+            domainUUID: "{{ domain_uuid }}"
 
 
 
