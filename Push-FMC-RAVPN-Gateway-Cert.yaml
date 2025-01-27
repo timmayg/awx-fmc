@@ -7,11 +7,11 @@
   tasks:
     - name: 01 - Read the Firepower Creds from Vault
       community.hashi_vault.vault_kv2_get:
-        url: "https://vault.theglens.net:8200"
-        path: "cred_lab_fmc"         
-        auth_method: token
-        token: "{{ ansible_password }}"
-        engine_mount_point: "kv"
+        path: "cred_lab_fmc"  
+        url: "{{ vault_url }}"
+        auth_method: "{{ vault_auth_method  }}" 
+        token: "{{ vault_token }}"
+        engine_mount_point: "{{ vault_mount }}"
       register: cred_lab_fmc
 
 
