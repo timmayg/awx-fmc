@@ -56,12 +56,12 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getVpnCertEnrollmentModel"
         path_params:
-            objectId: "{{ ra_vpn_gateway.items.CertEnrollments.CertEnrollment.id }}"
+            objectId: "{{ response.items[0].certEnrollments[0].certEnrollment.id }}"
             domainUUID: "{{ domain_uuid }}"
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
-      
+
 # https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel/#example
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
