@@ -24,16 +24,6 @@
         engine_mount_point: "{{ vault_mount }}"
       register: cert
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-
-
-#    - name: 03 - Set some Firepower Auth facts
-#      ansible.builtin.set_fact:
-#        ansible_username: "{{ cred_lab_fmc.data.data.ansible_username }}"
-#        ansible_password: "{{ cred_lab_fmc.data.data.ansible_password }}"
-#
-
 
     - name: 02 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
@@ -53,9 +43,8 @@
 
 
 
-
-
-
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
