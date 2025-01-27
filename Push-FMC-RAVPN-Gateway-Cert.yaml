@@ -118,7 +118,7 @@
 
     - name: Print objectId
       ansible.builtin.debug:
-        msg: "objectId is {{ ftd_vpn_model.items }}"
+        msg: "Object is {{ ftd_vpn_model }}"
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
