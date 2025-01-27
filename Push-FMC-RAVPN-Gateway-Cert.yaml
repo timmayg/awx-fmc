@@ -53,7 +53,7 @@
 
     - name: Print objectId
       ansible.builtin.debug:
-        msg: "objectId is {{ response.items[0].certEnrollments[0].certEnrollment.id }}"
+        msg: "objectId is {{ ra_vpn_gateway.items[0].certEnrollments[0].certEnrollment.id }}"
 
 
 
