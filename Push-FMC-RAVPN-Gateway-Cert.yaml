@@ -35,12 +35,14 @@
       ansible.builtin.set_fact:
         domain_uuid: "{{ domains[0]['uuid'] }}"
 
+
     - name: 05 - Get info from FMC getRaVpnGateway
       cisco.fmcansible.fmc_configuration:
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
       register: ra_vpn_gateway
+
 
     - name: AA - Get Internal Certificate Status
       cisco.fmcansible.fmc_configuration:
@@ -50,6 +52,17 @@
       register: internal_certs
 
 
+    - name: BB - Execute 'getVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getVpnCertEnrollmentModel"
+        path_params:
+            objectId: "{{ ra_vpn_gateway.items.CertEnrollments.CertEnrollment.id }}"
+            domainUUID: "{{ domain_uuid }}"
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+      
+# https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel/#example
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
@@ -62,10 +75,12 @@
             description:  
             overrides: {'parent': {'id': '00505681-AEC9-0ed3-0000-137438953475', 'type': 'CertEnrollment'}, 'target': {'name': 'deviceName', 'id': '93cdd824-6ef9-11ec-abd5-a12f5f15e4e2', 'type': 'Device'}}
         path_params:
-            # objectId: "{{ object_id }}"
+            # objectId: "{{ object_id }}"    # TIMO: THIS IS A REQUIRED PARAMETER
             domainUUID: "{{ domain_uuid }}"
 
 
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 
     - name: Timmay HARD STOP this Playbook
