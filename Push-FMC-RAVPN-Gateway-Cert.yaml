@@ -110,7 +110,7 @@
             overridable: True
             pkcs12Content: 
               base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
-              passPhrase: 'passPhrase'
+              passPhrase: 'cisco123'
             name: "Change This"
             description:  
             overrides: 
