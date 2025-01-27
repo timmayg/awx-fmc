@@ -51,6 +51,7 @@
 #            domainUUID: "{{ domain_uuid }}"
 #      register: internal_certs
 
+
     - name: Print objectId
       ansible.builtin.debug:
         #msg: "objectId is {{ ra_vpn_gateway.items[0].certEnrollments[0].certEnrollment.id }}"
@@ -90,8 +91,8 @@
 
 
 
-# https://developer.cisco.com/docs/fmc-ansible/getvpncertenrollmentmodel/#getvpncertenrollmentmodel
-    - name: BB - Execute 'getVpnCertEnrollmentModel' operation
+# https://developer.cisco.com/docs/fmc-ansible/getvpncertenrollmentmodel
+    - name: AA - Execute 'getVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getVpnCertEnrollmentModel"
         path_params:
@@ -99,8 +100,20 @@
             domainUUID: "{{ domain_uuid }}"
 
 
+# https://developer.cisco.com/docs/fmc-ansible/getallvpncertenrollmentmodel
+    - name: BB - Execute 'getAllVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+#        query_params:
+#            offset: "{{ offset }}"
+#            limit: "{{ limit }}"
+#            expanded: "{{ expanded }}"
 
-# https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel/#example
+
+
+# https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
