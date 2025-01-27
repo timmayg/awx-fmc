@@ -98,11 +98,7 @@
             objectId: "00000000-0000-0ed3-0000-012884904511"
             domainUUID: "{{ domain_uuid }}"
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play      
 
 # https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel/#example
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
@@ -117,14 +113,19 @@
             description:  
             overrides: {'parent': {'id': '00505681-AEC9-0ed3-0000-137438953475', 'type': 'CertEnrollment'}, 'target': {'name': 'deviceName', 'id': '93cdd824-6ef9-11ec-abd5-a12f5f15e4e2', 'type': 'Device'}}
         path_params:
-            # objectId: "{{ object_id }}"    # TIMO: THIS IS A REQUIRED PARAMETER
+            objectId: "00000000-0000-0ed3-0000-012884904511"    # TIMO: THIS IS A REQUIRED PARAMETER
             domainUUID: "{{ domain_uuid }}"
 
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
 
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play      
+      
     - name: Timmay HARD STOP this Playbook
       meta: end_play
 
