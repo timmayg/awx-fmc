@@ -51,7 +51,7 @@
             domainUUID: "{{ domain_uuid }}"
       register: internal_certs
 
-    - name: Print objectId:
+    - name: Print objectId
       ansible.builtin.debug:
         msg: "objectId is {{ response.items[0].certEnrollments[0].certEnrollment.id }}"
 
