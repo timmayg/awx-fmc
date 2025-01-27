@@ -49,6 +49,7 @@
             domainUUID: "{{ domain_uuid }}"
       register: internal_certs
 
+
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
