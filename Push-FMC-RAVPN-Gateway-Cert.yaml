@@ -123,7 +123,7 @@
             pkcs12Content: 
               base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "Imported on {{ ansible_date_time.date }}"
+            name: "Imported_on_{{ ansible_date_time.date }}"
             description:  
             overrides: 
               # parent: 
