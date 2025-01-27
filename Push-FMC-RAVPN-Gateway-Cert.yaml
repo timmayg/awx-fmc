@@ -15,17 +15,18 @@
       register: cred_lab_fmc
 
 
+    - name: 02 - Read the FTD RAVPN Certificate from Vault
+      community.hashi_vault.vault_kv2_get:
+        path: "lab-ftd.theglens.net"         #p12_in_base64"
+        url: "{{ vault_url }}"
+        auth_method: "{{ vault_auth_method  }}" 
+        token: "{{ vault_token }}"
+        engine_mount_point: "{{ vault_mount }}"
+      register: cert
+
     - name: Timmay HARD STOP this Playbook
       meta: end_play
 
-    - name: 01 - Read the Certificate from Vault
-      community.hashi_vault.vault_kv2_get:
-        url: "https://vault.theglens.net:8200"
-        path: "lab-ftd.theglens.net"         #p12_in_base64"
-        auth_method: token
-        token: "{{ ansible_become_password }}"
-        engine_mount_point: "kv"
-      register: cert
 
 #    - name: 03 - Set some Firepower Auth facts
 #      ansible.builtin.set_fact:
