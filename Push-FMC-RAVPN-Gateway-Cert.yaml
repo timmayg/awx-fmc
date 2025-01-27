@@ -2,7 +2,7 @@
 - name: Playbook to Push a RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
-  gather_facts: false
+  gather_facts: true
 
   tasks:
     - name: 01 - Read the Firepower Creds from Vault
@@ -22,7 +22,7 @@
         auth_method: "{{ vault_auth_method  }}" 
         token: "{{ vault_token }}"
         engine_mount_point: "{{ vault_mount }}"
-      register: cert
+      register: ravpn_cert
 
 
     - name: 03 - Get FMC Domain
@@ -42,12 +42,29 @@
             domainUUID: "{{ domain_uuid }}"
       register: ra_vpn_gateway
 
-    - name: 05 - Get Cert Enrollment Status
+    - name: AA - Get Internal Certificate Status
       cisco.fmcansible.fmc_configuration:
         operation: "getAllInternalCertificate"
         path_params:
             domainUUID: "{{ domain_uuid }}"
       register: internal_certs
+
+    - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateVpnCertEnrollmentModel"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: {'base64Certificate': "{{ ravpn_cert.data.data.p12_in_base64 }}" , 'passPhrase': 'passPhrase'}
+            name: "Change This"
+            description:  
+            overrides: {'parent': {'id': '00505681-AEC9-0ed3-0000-137438953475', 'type': 'CertEnrollment'}, 'target': {'name': 'deviceName', 'id': '93cdd824-6ef9-11ec-abd5-a12f5f15e4e2', 'type': 'Device'}}
+        path_params:
+            objectId: "{{ object_id }}"
+            domainUUID: "{{ domain_uuid }}"
+
+
 
 
     - name: Timmay HARD STOP this Playbook
