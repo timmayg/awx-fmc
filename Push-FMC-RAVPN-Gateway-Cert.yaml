@@ -44,7 +44,7 @@
       register: ra_vpn_gateway
 
 
-    - name: AA - Get Internal Certificate Status
+    - name: 06 - Get Internal Certificate Status
       cisco.fmcansible.fmc_configuration:
         operation: "getAllInternalCertificate"
         path_params:
