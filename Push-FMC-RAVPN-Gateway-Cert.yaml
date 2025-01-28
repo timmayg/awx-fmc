@@ -111,8 +111,8 @@
     - name: AC - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
-        path_params:
-            objectId: "{{ ra_vpn_gateway.response.['items'][0]['id'] }}"
+        path_params:                 #  .response['items'][0]['id']         
+            objectId: "{{ ra_vpn_gateway.response['items'][0]['id'] }}"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 
