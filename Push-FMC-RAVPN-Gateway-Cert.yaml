@@ -95,18 +95,18 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_ftd_vpn_models
 
-    - name: Debug the ra_vpn_gateway variable
-      ansible.builtin.debug:
-        var: ra_vpn_gateway
-
-    - name: Debug items in ra_vpn_gateway
-      ansible.builtin.debug:
-        msg: "Items: {{ ra_vpn_gateway.response.items }}"
-
-    - name: Debug items in ra_vpn_gateway
-      ansible.builtin.debug:
-        var: ra_vpn_gateway.response.items
-
+#    - name: Debug the ra_vpn_gateway variable
+#      ansible.builtin.debug:
+#        var: ra_vpn_gateway
+#
+#    - name: Debug items in ra_vpn_gateway
+#      ansible.builtin.debug:
+#        msg: "Items: {{ ra_vpn_gateway.response.items }}"
+#
+#    - name: Debug items in ra_vpn_gateway
+#      ansible.builtin.debug:
+#        var: ra_vpn_gateway.response.items
+#
 
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation
