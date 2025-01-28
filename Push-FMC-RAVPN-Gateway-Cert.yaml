@@ -115,7 +115,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
-            # objectId: "00000000-0000-0ed3-0000-004294970377"
+            objectId: "00000000-0000-0ed3-0000-004294970377"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 
