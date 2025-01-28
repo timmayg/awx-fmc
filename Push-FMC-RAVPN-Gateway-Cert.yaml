@@ -216,10 +216,10 @@
                 type: AnyConnectPackage
                 id: 00000000-0000-0ed3-0000-004294970324
 
-          connectionProfiles:
-            id: 00000000-0000-0ed3-0000-004294970533
-            type: RaVpnConnectionProfile
-            name: lab-ftd1_ravpn_policy
+#          connectionProfiles:
+#            id: 00000000-0000-0ed3-0000-004294970533
+#            type: RaVpnConnectionProfile
+#            name: lab-ftd1_ravpn_policy
 
 
         path_params:
