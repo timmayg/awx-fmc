@@ -5,9 +5,9 @@
   gather_facts: true
 
   tasks:
-    - name: Do you need to delete the certificate ??? 
-      ansible.builtin.pause:
-        seconds: 5
+#    - name: Do you need to delete the certificate ??? 
+#      ansible.builtin.pause:
+#        seconds: 5
 
     - name: 01 - Read the Firepower Creds from Vault
       community.hashi_vault.vault_kv2_get:
@@ -85,15 +85,14 @@
       ansible.builtin.debug:
         var: all_vpn_cert_enrollments.response.items
 
-    - name: Print the Cert ID (ChatGPT Drill Down)
-      ansible.builtin.debug:
-        var: all_vpn_cert_enrollments.response.items
+    - name: Extract the Cert ID and store in a variable
+      ansible.builtin.set_fact:
+        cert_id: "{{ all_vpn_cert_enrollments.response.items[0].id }}"
 
-    - name: Print all Cert IDs
+    - name: Debug the extracted Cert ID
       ansible.builtin.debug:
-        msg: >
-          Cert Enrollment 1: {{ all_vpn_cert_enrollments.response.items[0].id }}
-          Cert Enrollment 2: {{ all_vpn_cert_enrollments.response.items[1].id }}
+        msg: "The extracted Cert ID is {{ cert_id }}"
+
 
 # Need to figure out the Correect Cert ID
     - name: Timmay HARD STOP this Playbook
