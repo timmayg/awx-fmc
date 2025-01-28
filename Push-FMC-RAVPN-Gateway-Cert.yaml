@@ -139,15 +139,23 @@
         operation: "getAllFTDRAVpnModel"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-      register: ftd_vpn_model_c1
+      register: ftd_all_vpn_model
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation UPDATED
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
+          objectId: "{{ ra_vpn_gateway.response.items[0].policy.id }}"
+          domainUUID: "{{ domain_uuid }}"
+      register: ftd_vpn_model
+
+    - name: C2 - Execute 'getFTDRAVpnModel' operation OLD
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnModel"
+        path_params:
             objectId: "{{ ra_vpn_gateway.response.items[0].policy.id }}"
             domainUUID: "{{ domain_uuid }}"
-      register: ftd_vpn_model_c2
+      register: ftd_vpn_model
 
 
     - name: C3 - Execute 'updateFTDRAVpnModel' operation
