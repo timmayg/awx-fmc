@@ -112,7 +112,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
-            objectId: "00000000-0000-0ed3-0000-004294970377"
+            objectId: "{{ ra_vpn_gateway['items'][0]['id'] }}"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 
@@ -163,7 +163,7 @@
 
 
 
-    - name: AD - Execute 'updateFTDRAVpnModel' operation
+    - name: 06 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         data:
