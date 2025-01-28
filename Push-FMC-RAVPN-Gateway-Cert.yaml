@@ -193,13 +193,13 @@
                 type: AnyConnectPackage
                 id: 00000000-0000-0ed3-0000-004294970324
 
-            - connectionProfiles:
-                id: 00000000-0000-0ed3-0000-004294970533
-                type: RaVpnConnectionProfile
-                name: lab-ftd1_ravpn_policy
-            - addressAssignmentSettings:
-                id: 00000000-0000-0ed3-0000-004294970435
-                type: RaVpnAddressAssignmentSetting    
+          connectionProfiles:
+            id: 00000000-0000-0ed3-0000-004294970533
+            type: RaVpnConnectionProfile
+            name: lab-ftd1_ravpn_policy
+          addressAssignmentSettings:
+            id: 00000000-0000-0ed3-0000-004294970435
+            type: RaVpnAddressAssignmentSetting    
 
         path_params:
           objectId: "00000000-0000-0ed3-0000-004294970377"
