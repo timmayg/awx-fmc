@@ -71,29 +71,24 @@
             domainUUID: "{{ domain_uuid }}"
       register: internal_certs
 
-    - name: Print objectId
-      ansible.builtin.debug:
-        msg: "objectId is {{ ra_vpn_gateway }}"
+#    - name: Print objectId
+#      ansible.builtin.debug:
+#        msg: "objectId is {{ ra_vpn_gateway }}"
 
-    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllVpnCertEnrollmentModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-      register: all_vpn_cert_enrollments
+ 
 
-    - name: Execute 'getAllCertificateMapModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllCertificateMapModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
+#    - name: Execute 'getAllCertificateMapModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllCertificateMapModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
 
-    - name: C1 - Execute 'getAllFTDRAVpnModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllFTDRAVpnModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-      register: all_ftd_vpn_models
+#    - name: C1 - Execute 'getAllFTDRAVpnModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+#      register: all_ftd_vpn_models
 
 #    - name: Debug the ra_vpn_gateway variable
 #      ansible.builtin.debug:
@@ -111,20 +106,25 @@
 #https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
 #     objectId comes from task 05 - Get info from FMC getRaVpnGateway
 #     Optimally we should be able to use the ra_vpn_gateway variable
-    - name: C2 - Execute 'getFTDRAVpnModel' operation
+#    - name: C2 - Execute 'getFTDRAVpnModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnModel"
+#        path_params:
+#            objectId: "00000000-0000-0ed3-0000-004294970377"
+#            domainUUID: "{{ domain_uuid }}"
+#      register: ftd_vpn_model
+
+
+    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
-        operation: "getFTDRAVpnModel"
+        operation: "getAllVpnCertEnrollmentModel"
         path_params:
-            objectId: "00000000-0000-0ed3-0000-004294970377"
             domainUUID: "{{ domain_uuid }}"
-      register: ftd_vpn_model
-
-
-
+      register: all_vpn_cert_enrollments
 
 
 # https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel
-    - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
+    - name: BB - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
         data:
