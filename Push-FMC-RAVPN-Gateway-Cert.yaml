@@ -42,9 +42,10 @@
         path_params:
             domainUUID: "{{ domain_uuid }}"
         register_as: ra_vpn_gateway
-#      register: ra_vpn_gateway
 
 
+
+# FMC -> Objects -> PKI -> Cert Enrollment
     - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
@@ -66,6 +67,7 @@
                 type: 'Device'
 
 
+# FMC -> Objects -> PKI -> Cert Enrollment
     - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllVpnCertEnrollmentModel"
@@ -73,14 +75,20 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_vpn_cert_enrollments
 
-
+    - name: AB - Execute 'getAllFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllFTDRAVpnModel"
+        path_params:
+          domainUUID: "{{ domain_uuid }}"
+      register: all_ftd_vpn_models
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
 
 
-
-
+#
+#  This task likely needs to be removed
+#
     - name: Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
@@ -161,6 +169,7 @@
 #      register: ftd_vpn_model
 
 
+# FMC -> Objects -> PKI -> Cert Enrollment
     - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllVpnCertEnrollmentModel"
@@ -170,6 +179,7 @@
 
 
 # https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel
+# FMC -> Objects -> PKI -> Cert Enrollment
     - name: BB - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
