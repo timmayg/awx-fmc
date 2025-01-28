@@ -111,12 +111,12 @@
 #            objectId: "{{ object_id }}"
 #            domainUUID: "{{ domain_uuid }}"
 
-    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllFTDRAVpnAddressAssignmentSetting"
-        path_params:
-            containerUUID: "{{ container_uuid }}"
-            domainUUID: "{{ domain_uuid }}"
+#    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnAddressAssignmentSetting"
+#        path_params:
+#            containerUUID: "{{ container_uuid }}"  #  <---- THIS
+#            domainUUID: "{{ domain_uuid }}"
 
 #    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
 #      cisco.fmcansible.fmc_configuration:
