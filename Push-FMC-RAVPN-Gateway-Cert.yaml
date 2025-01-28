@@ -149,6 +149,10 @@
       ansible.builtin.debug:
         msg: "Items: {{ ra_vpn_gateway.response.items }}"
 
+    - name: Debug items in ra_vpn_gateway
+      ansible.builtin.debug:
+        var: ra_vpn_gateway.response.items
+
     - name: C2 - Execute 'getFTDRAVpnModel' operation BROKKE
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
