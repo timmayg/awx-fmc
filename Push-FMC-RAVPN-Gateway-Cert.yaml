@@ -135,11 +135,7 @@
         operation: "getAllFTDRAVpnModel"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-      register: ftd_vpn_model
-
-    - name: Print objectId
-      ansible.builtin.debug:
-        msg: "Object is {{ ftd_vpn_model.items }}"
+      register: ftd_vpn_model_c1
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation UPDATED
       cisco.fmcansible.fmc_configuration:
@@ -147,7 +143,7 @@
         path_params:
             objectId: "00000000-0000-0ed3-0000-004294970377"  #"{{ ra_vpn_gateway.response.items[0].policy.id }}"
             domainUUID: "{{ domain_uuid }}"
-      register_as: ftd_vpn_model
+      register: ftd_vpn_model_c2
 
 
     - name: C3 - Execute 'updateFTDRAVpnModel' operation
