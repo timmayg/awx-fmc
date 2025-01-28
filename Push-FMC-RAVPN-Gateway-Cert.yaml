@@ -108,10 +108,10 @@
 #        var: ra_vpn_gateway.response.items
 #
 
-
-    - name: C2 - Execute 'getFTDRAVpnModel' operation
+#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
 #     objectId comes from task 05 - Get info from FMC getRaVpnGateway
 #     Optimally we should be able to use the ra_vpn_gateway variable
+    - name: C2 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
