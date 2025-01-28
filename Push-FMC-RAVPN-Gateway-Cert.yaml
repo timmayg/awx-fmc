@@ -212,9 +212,9 @@
             # externalBrowserPackage: {'name': 'Name', 'type': 'AnyConnectExternalBrowserPackage', 'id': 'UUID'}
             # dapPolicy: {'name': 'Name', 'id': 'UUID', 'type': 'DynamicAccessPolicy'}
             # localRealmServer: {'name': 'Name', 'id': 'UUID', 'type': 'IdentityRealm'}
-        path_params:
-            objectId: "{{ object_id }}"
-            domainUUID: "{{ domain_uuid }}"
+#        path_params:
+#            objectId: "{{ object_id }}"
+#            domainUUID: "{{ domain_uuid }}"
 
 
 
