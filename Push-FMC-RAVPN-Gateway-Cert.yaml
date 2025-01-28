@@ -85,15 +85,21 @@
       ansible.builtin.debug:
         var: all_vpn_cert_enrollments.response.items
 
-    - name: Ensure all_vpn_cert_enrollments is defined and has items
+    - name: Ensure all_vpn_cert_enrollments is defined and has the correct structure
       ansible.builtin.debug:
-        msg: "The all_vpn_cert_enrollments variable is empty or undefined!"
-      when: all_vpn_cert_enrollments is not defined or all_vpn_cert_enrollments.response.items | length == 0
+        msg: "The all_vpn_cert_enrollments variable is empty, undefined, or does not have valid items!"
+      when: all_vpn_cert_enrollments is not defined or
+            all_vpn_cert_enrollments.response is not defined or
+            all_vpn_cert_enrollments.response.items is not defined or
+            all_vpn_cert_enrollments.response.items | length == 0
 
     - name: Extract the Cert ID and store in a variable
       ansible.builtin.set_fact:
         cert_id: "{{ all_vpn_cert_enrollments.response.items[0].id }}"
-      when: all_vpn_cert_enrollments is defined and all_vpn_cert_enrollments.response.items | length > 0
+      when: all_vpn_cert_enrollments is defined and
+            all_vpn_cert_enrollments.response is defined and
+            all_vpn_cert_enrollments.response.items is defined and
+            all_vpn_cert_enrollments.response.items | length > 0
 
     - name: Debug the extracted Cert ID
       ansible.builtin.debug:
