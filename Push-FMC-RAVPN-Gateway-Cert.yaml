@@ -200,21 +200,21 @@
               name: lab-ravpn-Group-Policy-HI
               id: 00000000-0000-0ed3-0000-004294970360
 
-            - addressAssignmentSettings:
-              id: 00000000-0000-0ed3-0000-004294970435
-              type: RaVpnAddressAssignmentSetting    
-
-#          anyConnectClientImages:
-#            - operatingSystem: Windows
-#              anyconnectImage:
-#                name: cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg
-#                type: AnyConnectPackage
-#                id: 00000000-0000-0ed3-0000-004294970342
-#            - operatingSystem: Windows
-#              anyconnectImage:
-#                name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
-#                type: AnyConnectPackage
-#                id: 00000000-0000-0ed3-0000-004294970324
+          addressAssignmentSettings:
+            - type: RaVpnAddressAssignmentSetting 
+             id: 00000000-0000-0ed3-0000-004294970435
+             
+          anyConnectClientImages:
+            - operatingSystem: Windows
+              anyconnectImage:
+                name: cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg
+                type: AnyConnectPackage
+                id: 00000000-0000-0ed3-0000-004294970342
+            - operatingSystem: Windows
+              anyconnectImage:
+                name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
+                type: AnyConnectPackage
+                id: 00000000-0000-0ed3-0000-004294970324
 
 #          connectionProfiles:
 #            id: 00000000-0000-0ed3-0000-004294970533
