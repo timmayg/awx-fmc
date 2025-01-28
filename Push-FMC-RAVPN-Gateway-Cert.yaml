@@ -5,6 +5,10 @@
   gather_facts: true
 
   tasks:
+    - name: Do you need to delete the certificate ??? 
+      ansible.builtin.pause:
+        seconds: 10
+
     - name: 01 - Read the Firepower Creds from Vault
       community.hashi_vault.vault_kv2_get:
         path: "cred_lab_fmc"  
