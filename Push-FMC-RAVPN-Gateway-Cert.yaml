@@ -85,6 +85,10 @@
       ansible.builtin.debug:
         var: all_vpn_cert_enrollments.response.items
 
+    - name: Print the Cert ID (ChatGPT Drill Down)
+      ansible.builtin.debug:
+        var: all_vpn_cert_enrollments.response.items
+
 # Need to figure out the Correect Cert ID
     - name: Timmay HARD STOP this Playbook
       meta: end_play
