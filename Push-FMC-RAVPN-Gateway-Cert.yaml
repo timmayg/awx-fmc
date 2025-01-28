@@ -56,7 +56,7 @@
             pkcs12Content: 
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "Imported_on_{{ ansible_date_time.date }}"
+            name: "AWX_imported_cert"
             description:  
             overrides: 
               target: 
@@ -121,43 +121,67 @@
 
 
 
+# https://developer.cisco.com/docs/fmc-ansible/updateftdravpnmodel/
+- name: Execute 'updateFTDRAVpnModel' operation
+  cisco.fmcansible.fmc_configuration:
+    operation: "updateFTDRAVpnModel"
+    data:
+      id: "00000000-0000-0ed3-0000-004294970377"
+      name: "lab-ftd1_ravpn_policy"
+      type: RAVpn
+      description: SAMPLE_PUT
+      configureSSL: true
+      configureIpsec: true
+      accessInterfaceSettings:
+        bypassACPolicyForDecryptTraffic: false
+        interfaceSettings:
+          - accessInterface:
+              name: "lab-ftd1_Outside"
+              id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+              type: SecurityZone
+            configureInterfaceIDCertificate: false
+            enableSSL: true
+            enableIPSecIkev2: true
+            enableDTLS: true
+        webPort: 443
+        sslIdCertificate:
+          type: CertEnrollment
+          # name: ####
+          id:   "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
+        ipsecIdCertificate:
+          type: CertEnrollment
+          # name: Name
+          id: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
+        allowConnectionProfileSelection: true
+        dtlsPort: 443
+#      groupPolicies:
+#        - type: GroupPolicy
+#          name: Name
+#          id: UUID
+      anyConnectClientImages:
+        - operatingSystem: Windows
+          anyconnectImage:
+            name: "cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg"
+            type: AnyConnectPackage
+            id: "00000000-0000-0ed3-0000-004294970342"
+#      externalBrowserPackage:
+#        name: Name
+#        type: AnyConnectExternalBrowserPackage
+#        id: UUID
+#      dapPolicy:
+#        name: Name
+#        id: UUID
+#        type: DynamicAccessPolicy
+#      localRealmServer:
+#        name: Name
+#        id: UUID
+#        type: IdentityRealm
+    path_params:
+      objectId: "00000000-0000-0ed3-0000-004294970377"
+      domainUUID: "{{ domain_uuid }}"
 
-    - name: C3 - Execute 'updateFTDRAVpnModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "updateFTDRAVpnModel"
-        data:
-            id: "00000000-0000-0ed3-0000-004294970377"
-            name: "lab-ftd1_ravpn_policy"
-            type: RAVpn
-            description: SAMPLE PUT
-            configureSSL: True
-            configureIpsec: True
-            accessInterfaceSettings:
-              bypassACPolicyForDecryptTraffic: false
-              interfaceSettings:
-                - accessInterface:
-                    name: "lab-ftd1_Outside"
-                    id: "9a088322-d13c-11ee-8329-a8431f2f725e"
-                    type: "SecurityZone"
-                  configureInterfaceIDCertificate: false
-                  enableSSL: true
-                  enableIPSecIkev2: true
-                  enableDTLS: true
-              webPort: 443
-              sslIdCertificate:
-                type: CertEnrollment
-                name: "Imported_on_2025-01-27"
-                id: "00000000-0000-0ed3-0000-012884908222"
-              ipsecIdCertificate:
-                type: CertEnrollment
-                name: "Imported_on_2025-01-27"
-                id: "00000000-0000-0ed3-0000-012884908222"
-              allowConnectionProfileSelection: true
-              dtlsPort: 443
-        path_params:
-            objectId: "00000000-0000-0ed3-0000-004294970377"
-            domainUUID: "{{ domain_uuid }}"
 
+# https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel
     - name: XY - Execute 'updateVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateVpnCertEnrollmentModel"
