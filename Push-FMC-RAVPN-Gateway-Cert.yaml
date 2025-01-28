@@ -197,15 +197,14 @@
               webPort: 443
               sslIdCertificate:
                 type: CertEnrollment
-                name: Name
-                id: UUID
+                name: "Imported_on_2025-01-27"
+                id: "00000000-0000-0ed3-0000-012884908222"
               ipsecIdCertificate:
                 type: CertEnrollment
-                name: Name
-                id: UUID
+                name: "Imported_on_2025-01-27"
+                id: "00000000-0000-0ed3-0000-012884908222"
               allowConnectionProfileSelection: true
               dtlsPort: 443
-
             
             # accessInterfaceSettings: {'bypassACPolicyForDecryptTraffic': False, 'interfaceSettings': [{'accessInterface': {'name': 'Name', 'id': 'UUID', 'type': 'SecurityZone'}, 'configureInterfaceIDCertificate': False, 'enableSSL': True, 'enableIPSecIkev2': True, 'enableDTLS': True}], 'webPort': 443, 'sslIdCertificate': {'type': 'CertEnrollment', 'name': 'Name', 'id': 'UUID'}, 'ipsecIdCertificate': {'type': 'CertEnrollment', 'name': 'Name', 'id': 'UUID'}, 'allowConnectionProfileSelection': True, 'dtlsPort': 443}
             # groupPolicies: [{'type': 'GroupPolicy', 'name': 'Name', 'id': 'UUID'}]
@@ -239,7 +238,7 @@
             pkcs12Content: 
               base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "Change This"
+            name: "ChangeThis"
             description:  
             overrides: 
               parent: 
