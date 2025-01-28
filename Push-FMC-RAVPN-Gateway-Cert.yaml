@@ -83,7 +83,7 @@
 
     - name: Print the Cert ID (Drill Down)   
       ansible.builtin.debug:
-        var: all_vpn_cert_enrollments.response.['items'][0].id
+        var: all_vpn_cert_enrollments.response.['items'].[0].id
 
 
 
