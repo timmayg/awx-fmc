@@ -43,6 +43,34 @@
             domainUUID: "{{ domain_uuid }}"
       register: ra_vpn_gateway
 
+#
+#  CLEAN UP Task 06.   Add variables where possible. 
+#
+# https://developer.cisco.com/docs/fmc-ansible/createvpncertenrollmentmodel/
+    - name: 06 - Add Certificate to Objects - PKI - Cert Enrollment
+      cisco.fmcansible.fmc_configuration:
+        operation: "createVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: 
+              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'cisco123'
+            name: "Imported_on_{{ ansible_date_time.date }}"
+            description:  
+            overrides: 
+              # parent: 
+              #  id: '00000000-0000-0ed3-0000-012884904511'
+              #  type: 'CertEnrollment'
+              target: 
+                name: 'lab-ftd1'
+                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+                type: 'Device'
+
+
 
 #    - name: 06 - Get Internal Certificate Status
 #      cisco.fmcansible.fmc_configuration:
@@ -110,30 +138,9 @@
 
 
 
-# https://developer.cisco.com/docs/fmc-ansible/createvpncertenrollmentmodel/
-    - name: CC - Add Certificate to Objects - PKI - Cert Enrollment
-      cisco.fmcansible.fmc_configuration:
-        operation: "createVpnCertEnrollmentModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-        data:
-            type: CertEnrollment
-            enrollmentType: PKCS12
-            overridable: True
-            pkcs12Content: 
-              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
-              passPhrase: 'cisco123'
-            name: "Imported_on_{{ ansible_date_time.date }}"
-            description:  
-            overrides: 
-              # parent: 
-              #  id: '00000000-0000-0ed3-0000-012884904511'
-              #  type: 'CertEnrollment'
-              target: 
-                name: 'lab-ftd1'
-                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-                type: 'Device'
 
+
+# https://developer.cisco.com/docs/fmc-ansible/getallcertificatemapmodel/
     - name: Execute 'getAllCertificateMapModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllCertificateMapModel"
@@ -152,6 +159,7 @@
 #
 
 
+# https://developer.cisco.com/docs/fmc-ansible/getallftdravpnmodel/
     - name: C1 - Execute 'getAllFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllFTDRAVpnModel"
@@ -172,7 +180,7 @@
 
 
 
-    - name: Execute 'updateFTDRAVpnModel' operation
+    - name: C3 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         data:
