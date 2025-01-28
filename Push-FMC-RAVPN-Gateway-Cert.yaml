@@ -41,7 +41,7 @@
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-      register: 05_ra_vpn_gateway
+      register: ra_vpn_gateway
 
 #
 #  CLEAN UP Task 06.   Add variables where possible. 
@@ -145,7 +145,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
-            objectId: " {{ 05_ra_vpn_gateway.response.items[0].policy.id }}"
+            objectId: " {{ ra_vpn_gateway.response.items[0].policy.id }}"
             domainUUID: "{{ domain_uuid }}"
       register_as: ftd_vpn_model
 
