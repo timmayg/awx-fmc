@@ -89,8 +89,8 @@
 
 
 # Need to figure out the Correect Cert ID
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
+#    - name: Timmay HARD STOP this Playbook
+#      meta: end_play
 
 ############################################################################
 
@@ -187,12 +187,12 @@
             webPort: 443
             sslIdCertificate:
               type: CertEnrollment
-              name: AWX_imported_cert
-              id: 00000000-0000-0ed3-0000-012884909745
+              name: all_vpn_cert_enrollments.response['items'][0]['name']
+              id: all_vpn_cert_enrollments.response['items'][0]['id']
             ipsecIdCertificate:
               type: CertEnrollment
-              name: AWX_imported_cert
-              id: 00000000-0000-0ed3-0000-012884909745
+              name: all_vpn_cert_enrollments.response['items'][0]['name']
+              id: all_vpn_cert_enrollments.response['items'][0]['id']
             allowConnectionProfileSelection: true
             dtlsPort: 443
           groupPolicies:
