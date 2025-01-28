@@ -44,6 +44,7 @@
         register_as: ra_vpn_gateway
 #      register: ra_vpn_gateway
 
+
     - name: 06 - Add Certificate to Objects - PKI - Cert Enrollment
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
@@ -63,6 +64,36 @@
                 name: 'lab-ftd1'
                 id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
                 type: 'Device'
+
+
+    - name: Execute 'updateVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateVpnCertEnrollmentModel"
+        data:
+          type: CertEnrollment
+          enrollmentType: PKCS12
+          overridable: true
+          pkcs12Content:
+            base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
+            passPhrase: "cisco123"
+          name: certName
+          description: ""
+          overrides:
+            parent:
+              id: 00505681-AEC9-0ed3-0000-137438953475
+              type: CertEnrollment
+            target:
+              name: deviceName
+              id: 93cdd824-6ef9-11ec-abd5-a12f5f15e4e2
+              type: Device
+        path_params:
+          objectId: "{{ object_id }}"
+          domainUUID: "{{ domain_uuid }}"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
 
     - name: 07 - Get Internal Certificate Status
       cisco.fmcansible.fmc_configuration:
