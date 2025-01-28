@@ -75,6 +75,18 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_vpn_cert_enrollments
 
+############################################################################
+
+    - name: Print the Cert ID    
+      ansible.builtin.debug:
+        var: all_vpn_cert_enrollments
+
+
+# Need to figure out the Correect Cert ID
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+############################################################################
 
 #
 # This task shows basic info about the 
