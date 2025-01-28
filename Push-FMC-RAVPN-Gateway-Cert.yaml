@@ -75,12 +75,30 @@
             domainUUID: "{{ domain_uuid }}"
       register: all_vpn_cert_enrollments
 
+
+#
+# This task shows basic info about the 
+# FMC -> Devices -> Remote Access 
     - name: AB - Execute 'getAllFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllFTDRAVpnModel"
         path_params:
           domainUUID: "{{ domain_uuid }}"
       register: all_ftd_vpn_models
+
+
+#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
+#     objectId comes from task 05 - Get info from FMC getRaVpnGateway
+#     Optimally we should be able to use the ra_vpn_gateway variable
+    - name: AC - Execute 'getFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnModel"
+        path_params:
+            objectId: "00000000-0000-0ed3-0000-004294970377"
+            domainUUID: "{{ domain_uuid }}"
+      register: ftd_vpn_model
+
+
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
