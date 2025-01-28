@@ -192,6 +192,19 @@
                 name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
                 type: AnyConnectPackage
                 id: 00000000-0000-0ed3-0000-004294970324
+
+            - connectionProfiles:
+                id: 00000000-0000-0ed3-0000-004294970533
+                type: RaVpnConnectionProfile
+                name: lab-ftd1_ravpn_policy
+            - addressAssignmentSettings:
+                id: 00000000-0000-0ed3-0000-004294970435
+                type: RaVpnAddressAssignmentSetting    
+
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-004294970377"
+          domainUUID: "{{ domain_uuid }}"
+
     #      externalBrowserPackage:
     #        name: Name
     #        type: AnyConnectExternalBrowserPackage
@@ -204,11 +217,6 @@
     #        name: Name
     #        id: UUID
     #        type: IdentityRealm
-        path_params:
-          objectId: "00000000-0000-0ed3-0000-004294970377"
-          domainUUID: "{{ domain_uuid }}"
-
-
 
 
 
