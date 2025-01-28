@@ -41,7 +41,8 @@
         operation: "getRaVpnGateway"
         path_params:
             domainUUID: "{{ domain_uuid }}"
-      register: ra_vpn_gateway
+        register_as: ra_vpn_gateway
+#      register: ra_vpn_gateway
 
     - name: 06 - Add Certificate to Objects - PKI - Cert Enrollment
       cisco.fmcansible.fmc_configuration:
@@ -106,6 +107,8 @@
       ansible.builtin.debug:
         var: ra_vpn_gateway.response.items
 
+
+
     - name: C2 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
@@ -113,6 +116,9 @@
             objectId: "{{ ra_vpn_gateway.response.items[0].policy.id }}"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
+
+
+
 
     - name: C3 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
