@@ -132,7 +132,7 @@
             enrollmentType: PKCS12
             overridable: True
             pkcs12Content: 
-              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "ChangeThis"
             description:  
