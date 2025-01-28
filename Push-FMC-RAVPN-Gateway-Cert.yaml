@@ -25,7 +25,7 @@
         auth_method: "{{ vault_auth_method  }}" 
         token: "{{ vault_token }}"
         engine_mount_point: "{{ vault_mount }}"
-      register: ravpn_cert
+      register: acme_cert
 
     - name: 03 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
@@ -54,7 +54,7 @@
             enrollmentType: PKCS12
             overridable: True
             pkcs12Content: 
-              base64Certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "Imported_on_{{ ansible_date_time.date }}"
             description:  
@@ -110,10 +110,12 @@
 
 
     - name: C2 - Execute 'getFTDRAVpnModel' operation
+#     objectId comes from task 05 - Get info from FMC getRaVpnGateway
+#     Optimally we should be able to use the ra_vpn_gateway variable
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:
-            objectId: "{{ ra_vpn_gateway.response.items[0].policy.id }}"
+            objectId: "00000000-0000-0ed3-0000-004294970377"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 
