@@ -99,68 +99,68 @@
       register: ftd_vpn_model
 
 
-- name: AD - Execute 'updateFTDRAVpnModel' operation
-  cisco.fmcansible.fmc_configuration:
-    operation: "updateFTDRAVpnModel"
-    data:
-      id: 00000000-0000-0ed3-0000-004294970377
-      name: lab-ftd1_ravpn_policy
-      type: RAVpn
-      description: SAMPLE_PUT
-      configureSSL: true
-      configureIpsec: true
-      accessInterfaceSettings:
-        bypassACPolicyForDecryptTraffic: false
-        interfaceSettings:
-          - accessInterface:
-              name: lab-ftd1_Outside
-              id: 9a088322-d13c-11ee-8329-a8431f2f725e
-              type: SecurityZone
-            configureInterfaceIDCertificate: false
-            enableSSL: true
-            enableIPSecIkev2: true
-            enableDTLS: true
-        webPort: 443
-        sslIdCertificate:
-          type: CertEnrollment
-          name: AWX_imported_cert
-          id: 00000000-0000-0ed3-0000-012884909745
-        ipsecIdCertificate:
-          type: CertEnrollment
-          name: AWX_imported_cert
-          id: 00000000-0000-0ed3-0000-012884909745
-        allowConnectionProfileSelection: true
-        dtlsPort: 443
-      groupPolicies:
-        - type: GroupPolicy
-          name: lab-ravpn-Group-Policy-HI
-          id: 00000000-0000-0ed3-0000-004294970360
-      anyConnectClientImages:
-        - operatingSystem: Windows
-          anyconnectImage:
-            name: cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg
-            type: AnyConnectPackage
-            id: 00000000-0000-0ed3-0000-004294970342
-        - operatingSystem: Windows
-          anyconnectImage:
-            name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
-            type: AnyConnectPackage
-            id: 00000000-0000-0ed3-0000-004294970324
-#      externalBrowserPackage:
-#        name: Name
-#        type: AnyConnectExternalBrowserPackage
-#        id: UUID
-#      dapPolicy:
-#        name: Name
-#        id: UUID
-#        type: DynamicAccessPolicy
-#      localRealmServer:
-#        name: Name
-#        id: UUID
-#        type: IdentityRealm
-    path_params:
-      objectId: "00000000-0000-0ed3-0000-004294970377"
-      domainUUID: "{{ domain_uuid }}"
+    - name: AD - Execute 'updateFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateFTDRAVpnModel"
+        data:
+          id: 00000000-0000-0ed3-0000-004294970377
+          name: lab-ftd1_ravpn_policy
+          type: RAVpn
+          description: SAMPLE_PUT
+          configureSSL: true
+          configureIpsec: true
+          accessInterfaceSettings:
+            bypassACPolicyForDecryptTraffic: false
+            interfaceSettings:
+              - accessInterface:
+                  name: lab-ftd1_Outside
+                  id: 9a088322-d13c-11ee-8329-a8431f2f725e
+                  type: SecurityZone
+                configureInterfaceIDCertificate: false
+                enableSSL: true
+                enableIPSecIkev2: true
+                enableDTLS: true
+            webPort: 443
+            sslIdCertificate:
+              type: CertEnrollment
+              name: AWX_imported_cert
+              id: 00000000-0000-0ed3-0000-012884909745
+            ipsecIdCertificate:
+              type: CertEnrollment
+              name: AWX_imported_cert
+              id: 00000000-0000-0ed3-0000-012884909745
+            allowConnectionProfileSelection: true
+            dtlsPort: 443
+          groupPolicies:
+            - type: GroupPolicy
+              name: lab-ravpn-Group-Policy-HI
+              id: 00000000-0000-0ed3-0000-004294970360
+          anyConnectClientImages:
+            - operatingSystem: Windows
+              anyconnectImage:
+                name: cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg
+                type: AnyConnectPackage
+                id: 00000000-0000-0ed3-0000-004294970342
+            - operatingSystem: Windows
+              anyconnectImage:
+                name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
+                type: AnyConnectPackage
+                id: 00000000-0000-0ed3-0000-004294970324
+    #      externalBrowserPackage:
+    #        name: Name
+    #        type: AnyConnectExternalBrowserPackage
+    #        id: UUID
+    #      dapPolicy:
+    #        name: Name
+    #        id: UUID
+    #        type: DynamicAccessPolicy
+    #      localRealmServer:
+    #        name: Name
+    #        id: UUID
+    #        type: IdentityRealm
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-004294970377"
+          domainUUID: "{{ domain_uuid }}"
 
 
 
