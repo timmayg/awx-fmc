@@ -83,7 +83,7 @@
 
     - name: Print the Cert ID    
       ansible.builtin.debug:
-        var: all_vpn_cert_enrollments.response.items[0].id
+        var: all_vpn_cert_enrollments.response
 
 # Need to figure out the Correect Cert ID
     - name: Timmay HARD STOP this Playbook
