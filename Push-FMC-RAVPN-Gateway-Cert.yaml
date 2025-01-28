@@ -45,7 +45,7 @@
 #      register: ra_vpn_gateway
 
 
-    - name: 06 - Add Certificate to Objects - PKI - Cert Enrollment
+    - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
         path_params:
@@ -64,6 +64,21 @@
                 name: 'lab-ftd1'
                 id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
                 type: 'Device'
+
+
+    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: all_vpn_cert_enrollments
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
 
 
     - name: Execute 'updateVpnCertEnrollmentModel' operation
