@@ -87,7 +87,7 @@
               id: 93cdd824-6ef9-11ec-abd5-a12f5f15e4e2
               type: Device
         path_params:
-          objectId: "{{ object_id }}"
+          objectId: "00000000-0000-0ed3-0000-012884909581"
           domainUUID: "{{ domain_uuid }}"
 
 
