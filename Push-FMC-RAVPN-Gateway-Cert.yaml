@@ -181,6 +181,11 @@
             - type: GroupPolicy
               name: lab-ravpn-Group-Policy-HI
               id: 00000000-0000-0ed3-0000-004294970360
+
+            - addressAssignmentSettings:
+              id: 00000000-0000-0ed3-0000-004294970435
+              type: RaVpnAddressAssignmentSetting    
+
           anyConnectClientImages:
             - operatingSystem: Windows
               anyconnectImage:
@@ -197,9 +202,7 @@
             id: 00000000-0000-0ed3-0000-004294970533
             type: RaVpnConnectionProfile
             name: lab-ftd1_ravpn_policy
-          addressAssignmentSettings:
-            id: 00000000-0000-0ed3-0000-004294970435
-            type: RaVpnAddressAssignmentSetting    
+
 
         path_params:
           objectId: "00000000-0000-0ed3-0000-004294970377"
