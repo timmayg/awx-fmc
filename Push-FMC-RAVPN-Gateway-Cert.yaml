@@ -152,20 +152,20 @@
 #            containerUUID: "{{ container_uuid }}"
 #            domainUUID: "{{ domain_uuid }}"
 
-    - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllFTDRAVpnConnectionProfileModel"
-        path_params:
-            containerUUID: "00000000-0000-0ed3-0000-004294970377"
-            domainUUID: "{{ domain_uuid }}"
-
-    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getFTDRAVpnConnectionProfileModel"
-        path_params:
-            objectId: "{{ object_id }}"
-            containerUUID: "{{ container_uuid }}"
-            domainUUID: "{{ domain_uuid }}"
+#    - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnConnectionProfileModel"
+#        path_params:
+#            containerUUID: "00000000-0000-0ed3-0000-004294970377"
+#            domainUUID: "{{ domain_uuid }}"
+#
+#    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnConnectionProfileModel"
+#        path_params:
+#            objectId: "{{ object_id }}"
+#            containerUUID: "{{ container_uuid }}"
+#            domainUUID: "{{ domain_uuid }}"
 
     - name: Execute 'getAllCertificateMapModel' operation
       cisco.fmcansible.fmc_configuration:
