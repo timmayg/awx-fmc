@@ -64,7 +64,12 @@
             #    name: 'lab-ftd1'
             #    id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
             #    type: 'Device'
+        register_as: create_vpn_cert
 
+#   This MAY be an Authoritative Source for the Cert ID
+    - name: Print the Cert ID (Drill Down)   
+      ansible.builtin.debug:
+        var: create_vpn_cert.id
 
 # FMC -> Objects -> PKI -> Cert Enrollment
     - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
