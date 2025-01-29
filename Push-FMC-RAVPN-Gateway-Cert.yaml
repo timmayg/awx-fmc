@@ -171,21 +171,7 @@
           description: SAMPLE_PUT
           configureSSL: true
           configureIpsec: true
-          #
-          addressAssignmentSettings:
-            type: RaVpnAddressAssignmentSetting
-            id: 00000000-0000-0ed3-0000-004294970435
-          
-          connectionProfiles:
-            id: 00000000-0000-0ed3-0000-004294970533
-            type: RaVpnConnectionProfile
-            name: lab-ftd1_ravpn_policy
-          
-          dapPolicy:
-            name: dap-policy-name
-            id: 00000000-0000-0ed3-0000-004294970555
-            type: DynamicAccessPolicy
-          #
+
           accessInterfaceSettings:
             bypassACPolicyForDecryptTraffic: false
             interfaceSettings:
@@ -227,7 +213,21 @@
         path_params:
           objectId: "00000000-0000-0ed3-0000-004294970377"
           domainUUID: "{{ domain_uuid }}"
-
+          #
+          addressAssignmentSettings:
+            type: RaVpnAddressAssignmentSetting
+            id: 00000000-0000-0ed3-0000-004294970435
+          
+          connectionProfiles:
+            id: 00000000-0000-0ed3-0000-004294970533
+            type: RaVpnConnectionProfile
+            name: lab-ftd1_ravpn_policy
+          
+          dapPolicy:
+            name: dap-policy-name
+            id: 00000000-0000-0ed3-0000-004294970555
+            type: DynamicAccessPolicy
+          #
 
 
 
