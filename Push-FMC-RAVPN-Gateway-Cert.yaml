@@ -235,7 +235,13 @@
             name: "Name"
             id: "UUID"
             type: "IdentityRealm"
-
+          addressAssignmentSettings:
+            type: RaVpnAddressAssignmentSetting
+            id: 00000000-0000-0ed3-0000-004294970435
+          connectionProfiles:
+            id: 00000000-0000-0ed3-0000-004294970533
+            type: RaVpnConnectionProfile
+            name: lab-ftd1_ravpn_policy
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
