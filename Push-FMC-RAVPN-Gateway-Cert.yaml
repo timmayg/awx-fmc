@@ -66,8 +66,8 @@
             #    type: 'Device'
         register_as: create_vpn_cert
 
-#   This MAY be an Authoritative Source for the Cert ID
-    - name: Print the Cert ID (Drill Down)   
+
+    - name: This IS THE Authoritative Source for the Cert ID
       ansible.builtin.debug:
         var: create_vpn_cert.id
 
@@ -85,14 +85,6 @@
       ansible.builtin.debug:
         var: all_vpn_cert_enrollments
 
-    - name: Print the Cert ID (Drill Down)   
-      ansible.builtin.debug:
-        var: all_vpn_cert_enrollments.response['items'][0]['id']
-
-
-# Need to figure out the Correect Cert ID
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
 
 ############################################################################
 #
