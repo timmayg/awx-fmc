@@ -138,12 +138,13 @@
         path_params:
             containerUUID: "00000000-0000-0ed3-0000-004294970377"  #  <---- THIS
             domainUUID: "{{ domain_uuid }}"
+        register_as: all_vpn_address_assignments
 
     - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnAddressAssignmentSetting"
         path_params:
-            objectId: "{{ object_id }}"
+            objectId: "{{ all_vpn_address_assignments.response['items'][0]['name'] }}"
             containerUUID: "{{ container_uuid }}"
             domainUUID: "{{ domain_uuid }}"
 
@@ -167,6 +168,7 @@
         operation: "getAllCertificateMapModel"
         path_params:
             domainUUID: "{{ domain_uuid }}"
+        register_as: all_cert_map_models
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
@@ -175,8 +177,9 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getCertificateMapModel"
         path_params:
-            objectId: "{{ object_id }}"
+            objectId: "{{ all_cert_map_models.response['items'][0]['name'] }}"
             domainUUID: "{{ domain_uuid }}"
+
 
 
 
