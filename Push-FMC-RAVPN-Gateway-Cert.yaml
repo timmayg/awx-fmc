@@ -45,25 +45,25 @@
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
-#    - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
-#      cisco.fmcansible.fmc_configuration:
-#        operation: "createVpnCertEnrollmentModel"
-#        path_params:
-#            domainUUID: "{{ domain_uuid }}"
-#        data:
-#            type: CertEnrollment
-#            enrollmentType: PKCS12
-#            overridable: True
-#            pkcs12Content: 
-#              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
-#              passPhrase: 'cisco123'
-#            name: "AWX_imported_cert"
-#            description:  
-#            overrides: 
-#              target: 
-#                name: 'lab-ftd1'
-#                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-#                type: 'Device'
+    - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
+      cisco.fmcansible.fmc_configuration:
+        operation: "createVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: 
+              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'cisco123'
+            name: "AWX_imported_cert"
+            description:  
+            overrides: 
+              target: 
+                name: 'lab-ftd1'
+                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+                type: 'Device'
 
 
 
@@ -176,7 +176,24 @@
 #        register_as: all_cert_map_models
 
 
+    - name: Execute 'getDeviceSettings' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getDeviceSettings"
+        path_params:
+            containerUUID: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
+            domainUUID: "{{ domain_uuid }}"
 
+
+
+
+
+
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 #  The task below is the one I've been working on for LONG TIME
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
