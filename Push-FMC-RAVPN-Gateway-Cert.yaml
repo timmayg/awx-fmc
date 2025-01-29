@@ -46,6 +46,22 @@
     - name: Print the FTD Device & Policy ID
       ansible.builtin.debug:
         msg:
+          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
+          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
+
+    - name: Print the FTD Device & Policy ID
+      ansible.builtin.debug:
+        msg:
+          - "Device ID: {{ ra_vpn_gateway['response']['items'][0]['device']['id'] }}"
+          - "Policy ID: {{ ra_vpn_gateway['response']['items'][0]['policy']['id'] }}"
+
+
+
+
+# this is the old task... 
+    - name: Print the FTD Device & Policy ID
+      ansible.builtin.debug:
+        msg:
           - "Device ID: {{ ra_vpn_gateway.response['items'][0]['device']['id'] }}"
           - "Policy ID: {{ ra_vpn_gateway.response['items'][0]['policy']['id'] }}"
 
@@ -64,7 +80,7 @@
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "lab-ftd_theglens_net_v5"
-            description: "Some BS Description Here" 
+            description: "Added by an Ansible Playbook run by AWX" 
             #overrides: 
             #  target: 
             #    name: 'lab-ftd1'
