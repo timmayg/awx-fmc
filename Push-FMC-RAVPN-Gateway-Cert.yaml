@@ -45,8 +45,8 @@
 
     - name: Print the FTD Device id and name
       ansible.builtin.debug:
-        var: ra_vpn_gateway.['items'][0]['device']['id']
-#         "{{ ra_vpn_gateway.response['items'][0]['device']['id'] }}"
+        var: ra_vpn_gateway.response['items']['device']['id']
+#  all_vpn_cert_enrollments.response['items'][0]['name'] }}"
 
     - name: Print the Ra VPN Gateway Policy ID
       ansible.builtin.debug:
