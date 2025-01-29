@@ -43,6 +43,14 @@
             domainUUID: "{{ domain_uuid }}"
         register_as: ra_vpn_gateway
 
+    - name: Print the FTD Device id and name
+      ansible.builtin.debug:
+        var: ra_vpn_gateway.response[items][0][device][id]
+
+    - name: Print the Ra VPN Gateway Policy ID
+      ansible.builtin.debug:
+        var: ra_vpn_gateway.response[items][0][policy][id]
+
 
 # FMC -> Objects -> PKI -> Cert Enrollment
     - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
@@ -121,6 +129,7 @@
 #        path_params:
 #            domainUUID: "{{ domain_uuid }}"
 
+###  No Dynamic Access Policies returned when this is run
 #    - name: Execute 'getDynamicAccessPolicy' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getDynamicAccessPolicy"
