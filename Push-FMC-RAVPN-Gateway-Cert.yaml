@@ -64,7 +64,7 @@
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "lab-ftd_theglens_net_v5"
-            description: "Added by an Ansible Playbook run by AWX" 
+            description: "Added by an Ansible Playbook & AWX" 
             #overrides: 
             #  target: 
             #    name: 'lab-ftd1'
@@ -120,12 +120,12 @@
 
 
 ###  No Certificate Map Models returned when this is run
-    - name: AD - Execute 'getAllCertificateMapModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllCertificateMapModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-        register_as: all_cert_map_models
+#    - name: AD - Execute 'getAllCertificateMapModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllCertificateMapModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+#        register_as: all_cert_map_models
 
 
 
@@ -187,12 +187,55 @@
 
 
 
-
-
-
-
 #    - name: Timmay HARD STOP this Playbook
 #      meta: end_play
+#  The task below is the one I'm jammin on rightnow
+# https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
+#
+    - name: 06AA - Execute 'updateFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateFTDRAVpnModel"
+        path_params:
+          objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          domainUUID: "{{ domain_uuid }}"
+        data:
+          id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          name: "lab-ftd1_ravpn_policy"
+          type: "RAVpn"
+          description: ""
+          configureSSL: true
+          configureIpsec: true
+          accessInterfaceSettings:
+            bypassACPolicyForDecryptTraffic: false
+            interfaceSettings:
+              - accessInterface:
+                  name: "lab-ftd1_Outside"
+                  id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+                  type: "SecurityZone"
+                configureInterfaceIDCertificate: false
+                enableSSL: true
+                enableIPSecIkev2: true
+                enableDTLS: true
+            sslIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+            ipsecIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+          #
+
+
+
+
+
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 #  The task below is the one I've been working on for LONG TIME
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
