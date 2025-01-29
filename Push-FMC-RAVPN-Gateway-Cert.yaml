@@ -45,12 +45,12 @@
 
     - name: Print the FTD Device id and name
       ansible.builtin.debug:
-        var: ra_vpn_gateway.response['items'][0]['device']['id']
+        var: ra_vpn_gateway.['items'][0]['device']['id']
 #         "{{ ra_vpn_gateway.response['items'][0]['device']['id'] }}"
 
     - name: Print the Ra VPN Gateway Policy ID
       ansible.builtin.debug:
-        var: ra_vpn_gateway.response[items][0][policy][id]
+        var: ra_vpn_gateway.[items][0][policy][id]
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
