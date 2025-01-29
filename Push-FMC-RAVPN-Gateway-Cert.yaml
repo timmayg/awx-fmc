@@ -60,16 +60,10 @@
             name: "lab-ftd_theglens_net_v5"
             description:  
             overrides: 
-              target: 
-                name: 'lab-ftd1'
-                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-                type: 'Device'
-
-
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
-
-
+            #  target: 
+            #    name: 'lab-ftd1'
+            #    id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+            #    type: 'Device'
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
@@ -92,8 +86,8 @@
 
 
 # Need to figure out the Correect Cert ID
-#    - name: Timmay HARD STOP this Playbook
-#      meta: end_play
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 ############################################################################
 #
