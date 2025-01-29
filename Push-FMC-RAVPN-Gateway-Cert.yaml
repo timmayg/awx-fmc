@@ -144,7 +144,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnAddressAssignmentSetting"
         path_params:
-            objectId: "{{ all_vpn_address_assignments.response['items'][0]['name'] }}"
+            objectId: "{{ all_vpn_address_assignments.response['items'][0]['id'] }}"
             containerUUID: "{{ container_uuid }}"
             domainUUID: "{{ domain_uuid }}"
 
