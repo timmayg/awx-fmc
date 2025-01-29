@@ -224,7 +224,7 @@
               type: "CertEnrollment"
               name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
               id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
-                    addressAssignmentSettings:
+          addressAssignmentSettings:
             type: "RaVpnAddressAssignmentSetting"
             id: "00000000-0000-0ed3-0000-004294970435"
           anyConnectClientImages:
