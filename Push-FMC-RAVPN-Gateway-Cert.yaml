@@ -122,12 +122,12 @@
 
 
 
-
-    - name: Execute 'getAllDynamicAccessPolicy' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllDynamicAccessPolicy"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
+###  No Dynamic Access Policies returned when this is run
+#    - name: Execute 'getAllDynamicAccessPolicy' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllDynamicAccessPolicy"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
 
 #    - name: Execute 'getDynamicAccessPolicy' operation
 #      cisco.fmcansible.fmc_configuration:
@@ -250,7 +250,7 @@
           description: SAMPLE
           configureIpsec: true
           configureSSL: true
-     ignore_errors: true
+
 
 
     - name: Timmay HARD STOP this Playbook
