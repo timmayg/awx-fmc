@@ -202,8 +202,8 @@
               id: 00000000-0000-0ed3-0000-004294970360
 
           addressAssignmentSettings:
-            - type: RaVpnAddressAssignmentSetting 
-              id: 00000000-0000-0ed3-0000-004294970435
+            type: RaVpnAddressAssignmentSetting 
+            id: 00000000-0000-0ed3-0000-004294970435
              
           anyConnectClientImages:
             - operatingSystem: Windows
