@@ -192,7 +192,7 @@
 #  The task below is the one I'm jammin on rightnow
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
-    - name: 06AA - Execute 'updateFTDRAVpnModel' operation
+    - name: 07AA - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         path_params:
@@ -224,6 +224,23 @@
               type: "CertEnrollment"
               name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
               id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+                    addressAssignmentSettings:
+            type: "RaVpnAddressAssignmentSetting"
+            id: "00000000-0000-0ed3-0000-004294970435"
+          anyConnectClientImages:
+            - operatingSystem: "WINDOWS"
+              anyconnectImage:
+                name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
+                type: "AnyConnectPackage"
+                id: "00000000-0000-0ed3-0000-004294970324"
+          connectionProfiles:
+            id: "00000000-0000-0ed3-0000-004294970533"
+            type: "RaVpnConnectionProfile"
+            name: "lab-ftd1_ravpn_policy"
+          dapPolicy:
+            name: "Name"
+            id: "UUID"
+            type: DynamicAccessPolicy  
           #
 
 
@@ -239,7 +256,7 @@
 #  The task below is the one I've been working on for LONG TIME
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
-    - name: 06 - Execute 'updateFTDRAVpnModel' operation
+    - name: 07 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         data:
@@ -279,32 +296,24 @@
             - type: "GroupPolicy"
               name: "lab-ravpn-Group-Policy-HI"
               id: "00000000-0000-0ed3-0000-004294970360"
+
+          addressAssignmentSettings:
+            type: "RaVpnAddressAssignmentSetting"
+            id: "00000000-0000-0ed3-0000-004294970435"
           anyConnectClientImages:
             - operatingSystem: "WINDOWS"
               anyconnectImage:
                 name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
                 type: "AnyConnectPackage"
                 id: "00000000-0000-0ed3-0000-004294970324"
-          #
-          addressAssignmentSettings:
-            type: "RaVpnAddressAssignmentSetting"
-            id: "00000000-0000-0ed3-0000-004294970435"
-          
           connectionProfiles:
             id: "00000000-0000-0ed3-0000-004294970533"
             type: "RaVpnConnectionProfile"
             name: "lab-ftd1_ravpn_policy"
-          
           dapPolicy:
             name: "Name"
             id: "UUID"
             type: DynamicAccessPolicy
-
-          localRealmServer:
-            name: "Name"
-            id: "UUID"
-            type: "IdentityRealm"
-          #
 
         path_params:
           objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
