@@ -95,7 +95,6 @@
 #      meta: end_play
 
 ############################################################################
-
 #
 # This task shows basic info about the 
 # FMC -> Devices -> Remote Access 
@@ -118,6 +117,11 @@
             objectId: "00000000-0000-0ed3-0000-004294970377"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
+#
+############################################################################
+
+
+
 
     - name: Execute 'getAllDynamicAccessPolicy' operation
       cisco.fmcansible.fmc_configuration:
@@ -132,21 +136,21 @@
 #            objectId: "{{ object_id }}"
 #            domainUUID: "{{ domain_uuid }}"
 
-    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllFTDRAVpnAddressAssignmentSetting"
-        path_params:
-            containerUUID: "00000000-0000-0ed3-0000-004294970377"  #  <---- THIS
-            domainUUID: "{{ domain_uuid }}"
-        register_as: all_vpn_address_assignments
+#    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnAddressAssignmentSetting"
+#        path_params:
+#            containerUUID: "00000000-0000-0ed3-0000-004294970377"  #  <---- THIS
+#            domainUUID: "{{ domain_uuid }}"
+#        register_as: all_vpn_address_assignments
 
-    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getFTDRAVpnAddressAssignmentSetting"
-        path_params:
-            objectId: "{{ all_vpn_address_assignments.response['items'][0]['id'] }}"
-            containerUUID: "{{ container_uuid }}"
-            domainUUID: "{{ domain_uuid }}"
+#    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnAddressAssignmentSetting"
+#        path_params:
+#            objectId: "{{ all_vpn_address_assignments.response['items'][0]['id'] }}"
+#            containerUUID: "{{ container_uuid }}"
+#            domainUUID: "{{ domain_uuid }}"
 
     - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
       cisco.fmcansible.fmc_configuration:
