@@ -120,7 +120,7 @@
 
 
 ###  No Certificate Map Models returned when this is run
-    - name: Execute 'getAllCertificateMapModel' operation
+    - name: AD - Execute 'getAllCertificateMapModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getAllCertificateMapModel"
         path_params:
