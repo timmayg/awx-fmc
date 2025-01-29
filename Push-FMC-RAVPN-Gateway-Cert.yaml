@@ -139,13 +139,13 @@
             containerUUID: "00000000-0000-0ed3-0000-004294970377"  #  <---- THIS
             domainUUID: "{{ domain_uuid }}"
 
-#    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
-#      cisco.fmcansible.fmc_configuration:
-#        operation: "getFTDRAVpnAddressAssignmentSetting"
-#        path_params:
-#            objectId: "{{ object_id }}"
-#            containerUUID: "{{ container_uuid }}"
-#            domainUUID: "{{ domain_uuid }}"
+    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnAddressAssignmentSetting"
+        path_params:
+            objectId: "{{ object_id }}"
+            containerUUID: "{{ container_uuid }}"
+            domainUUID: "{{ domain_uuid }}"
 
     - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
       cisco.fmcansible.fmc_configuration:
@@ -154,15 +154,35 @@
             containerUUID: "00000000-0000-0ed3-0000-004294970377"
             domainUUID: "{{ domain_uuid }}"
 
-#    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
-#      cisco.fmcansible.fmc_configuration:
-#        operation: "getFTDRAVpnConnectionProfileModel"
-#        path_params:
-#            objectId: "{{ object_id }}"
-#            containerUUID: "{{ container_uuid }}"
-#            domainUUID: "{{ domain_uuid }}"
+    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnConnectionProfileModel"
+        path_params:
+            objectId: "{{ object_id }}"
+            containerUUID: "{{ container_uuid }}"
+            domainUUID: "{{ domain_uuid }}"
+
+    - name: Execute 'getAllCertificateMapModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllCertificateMapModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+    - name: Execute 'getCertificateMapModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getCertificateMapModel"
+        path_params:
+            objectId: "{{ object_id }}"
+            domainUUID: "{{ domain_uuid }}"
 
 
+
+
+# https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
+#
     - name: 06 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
@@ -214,10 +234,10 @@
             type: RaVpnAddressAssignmentSetting
             id: 00000000-0000-0ed3-0000-004294970435
           
-          #connectionProfiles:
-          #  id: 00000000-0000-0ed3-0000-004294970533
-          #  type: RaVpnConnectionProfile
-          #  name: lab-ftd1_ravpn_policy
+          connectionProfiles:
+            id: 00000000-0000-0ed3-0000-004294970533
+            type: RaVpnConnectionProfile
+            name: lab-ftd1_ravpn_policy
           
           dapPolicy:
             name: Name
