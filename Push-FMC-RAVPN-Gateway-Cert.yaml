@@ -66,8 +66,7 @@
                 type: 'Device'
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
+
 
 
 
@@ -92,8 +91,8 @@
 
 
 # Need to figure out the Correect Cert ID
-#    - name: Timmay HARD STOP this Playbook
-#      meta: end_play
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 ############################################################################
 
