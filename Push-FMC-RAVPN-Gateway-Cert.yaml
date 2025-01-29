@@ -58,7 +58,7 @@
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
             name: "lab-ftd_theglens_net_v5"
-            description:  
+            description: "Some BS Description Here" 
             #overrides: 
             #  target: 
             #    name: 'lab-ftd1'
