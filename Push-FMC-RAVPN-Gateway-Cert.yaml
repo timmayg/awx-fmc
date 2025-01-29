@@ -77,6 +77,7 @@
       ansible.builtin.debug:
         var: create_vpn_cert.id
 
+
 # FMC -> Objects -> PKI -> Cert Enrollment
     - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
       cisco.fmcansible.fmc_configuration:
@@ -110,12 +111,21 @@
     - name: AC - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
-        path_params:                 #  .response['items'][0]['id']         
+        path_params:                     
             objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 #
 ############################################################################
+
+
+###  No Certificate Map Models returned when this is run
+    - name: Execute 'getAllCertificateMapModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllCertificateMapModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        register_as: all_cert_map_models
 
 
 
@@ -164,16 +174,7 @@
 #            objectId: "{{ object_id }}"
 #            containerUUID: "{{ container_uuid }}"
 #            domainUUID: "{{ domain_uuid }}"
-
-###  No Certificate Map Models returned when this is run
-#    - name: Execute 'getAllCertificateMapModel' operation
-#      cisco.fmcansible.fmc_configuration:
-#        operation: "getAllCertificateMapModel"
-#        path_params:
-#            domainUUID: "{{ domain_uuid }}"
-#        register_as: all_cert_map_models
-
-
+#
 #    - name: Execute 'getDeviceSettings' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getDeviceSettings"
@@ -202,7 +203,7 @@
           id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
           name: "lab-ftd1_ravpn_policy"
           type: "RAVpn"
-          description: "Sample_Put"
+          description: ""
           configureSSL: true
           configureIpsec: true
 
