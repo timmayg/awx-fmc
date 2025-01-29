@@ -178,6 +178,9 @@
 
     - name: TEST - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-004294970377"
+          domainUUID: "{{ domain_uuid }}"
         operation: "updateFTDRAVpnModel"
         data:
           name: lab-ftd1_ravpn_policy
