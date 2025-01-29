@@ -161,9 +161,6 @@
 #            domainUUID: "{{ domain_uuid }}"
 
 
-
-
-
     - name: 06 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
@@ -188,23 +185,21 @@
             webPort: 443
             sslIdCertificate:
               type: CertEnrollment
-              name: all_vpn_cert_enrollments.response['items'][0]['name']
-              id: all_vpn_cert_enrollments.response['items'][0]['id']
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
             ipsecIdCertificate:
               type: CertEnrollment
-              name: all_vpn_cert_enrollments.response['items'][0]['name']
-              id: all_vpn_cert_enrollments.response['items'][0]['id']
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
             allowConnectionProfileSelection: true
             dtlsPort: 443
           groupPolicies:
             - type: GroupPolicy
               name: lab-ravpn-Group-Policy-HI
               id: 00000000-0000-0ed3-0000-004294970360
-
           addressAssignmentSettings:
-            type: RaVpnAddressAssignmentSetting 
+            type: RaVpnAddressAssignmentSetting
             id: 00000000-0000-0ed3-0000-004294970435
-             
           anyConnectClientImages:
             - operatingSystem: Windows
               anyconnectImage:
@@ -216,29 +211,17 @@
                 name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
                 type: AnyConnectPackage
                 id: 00000000-0000-0ed3-0000-004294970324
-
-#          connectionProfiles:
-#            id: 00000000-0000-0ed3-0000-004294970533
-#            type: RaVpnConnectionProfile
-#            name: lab-ftd1_ravpn_policy
-
-
+          connectionProfiles:
+            id: 00000000-0000-0ed3-0000-004294970533
+            type: RaVpnConnectionProfile
+            name: lab-ftd1_ravpn_policy
+          dapPolicy:
+            name: dap-policy-name
+            id: 00000000-0000-0ed3-0000-004294970555
+            type: DynamicAccessPolicy
         path_params:
           objectId: "00000000-0000-0ed3-0000-004294970377"
           domainUUID: "{{ domain_uuid }}"
-
-    #      externalBrowserPackage:
-    #        name: Name
-    #        type: AnyConnectExternalBrowserPackage
-    #        id: UUID
-    #      dapPolicy:
-    #        name: Name
-    #        id: UUID
-    #        type: DynamicAccessPolicy
-    #      localRealmServer:
-    #        name: Name
-    #        id: UUID
-    #        type: IdentityRealm
 
 
 
