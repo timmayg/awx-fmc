@@ -53,11 +53,11 @@
         data:
             type: CertEnrollment
             enrollmentType: PKCS12
-            overridable: True
+            overridable: False
             pkcs12Content: 
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "AWX_imported_cert"
+            name: "lab-ftd_theglens_net_v5"
             description:  
             overrides: 
               target: 
@@ -66,7 +66,8 @@
                 type: 'Device'
 
 
-
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
 
 
 
@@ -176,12 +177,12 @@
 #        register_as: all_cert_map_models
 
 
-    - name: Execute 'getDeviceSettings' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getDeviceSettings"
-        path_params:
-            containerUUID: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
-            domainUUID: "{{ domain_uuid }}"
+#    - name: Execute 'getDeviceSettings' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getDeviceSettings"
+#        path_params:
+#            containerUUID: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
+#            domainUUID: "{{ domain_uuid }}"
 
 
 
