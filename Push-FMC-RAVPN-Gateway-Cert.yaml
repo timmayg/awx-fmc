@@ -198,11 +198,11 @@
             dtlsPort: 443
           groupPolicies:
             - type: GroupPolicy
-              name: lab-ravpn-Group-Policy-HI
-              id: 00000000-0000-0ed3-0000-004294970360
-            - type: GroupPolicy
               name: DfltGrpPolicy
               id: 00000000-0000-0ed3-0000-000000010001
+            - type: GroupPolicy
+              name: lab-ravpn-Group-Policy-HI
+              id: 00000000-0000-0ed3-0000-004294970360
           anyConnectClientImages:
             - operatingSystem: Windows
               anyconnectImage:
@@ -214,10 +214,10 @@
             type: RaVpnAddressAssignmentSetting
             id: 00000000-0000-0ed3-0000-004294970435
           
-          connectionProfiles:
-            id: 00000000-0000-0ed3-0000-004294970533
-            type: RaVpnConnectionProfile
-            name: lab-ftd1_ravpn_policy
+          #connectionProfiles:
+          #  id: 00000000-0000-0ed3-0000-004294970533
+          #  type: RaVpnConnectionProfile
+          #  name: lab-ftd1_ravpn_policy
           
           dapPolicy:
             name: Name
