@@ -250,7 +250,7 @@
           description: SAMPLE
           configureIpsec: true
           configureSSL: true
-
+     ignore_errors: true
 
 
     - name: Timmay HARD STOP this Playbook
