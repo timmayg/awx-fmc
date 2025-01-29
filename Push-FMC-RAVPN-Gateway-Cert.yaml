@@ -91,8 +91,8 @@
 
 
 # Need to figure out the Correect Cert ID
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
+#    - name: Timmay HARD STOP this Playbook
+#      meta: end_play
 
 ############################################################################
 
@@ -170,7 +170,7 @@
           id: 00000000-0000-0ed3-0000-004294970377
           name: lab-ftd1_ravpn_policy
           type: RAVpn
-          description: SAMPLE_PUT
+          description: "Sample_Put"
           configureSSL: true
           configureIpsec: true
 
@@ -200,12 +200,10 @@
             - type: GroupPolicy
               name: lab-ravpn-Group-Policy-HI
               id: 00000000-0000-0ed3-0000-004294970360
+            - type: GroupPolicy
+              name: DfltGrpPolicy
+              id: 00000000-0000-0ed3-0000-000000010001
           anyConnectClientImages:
-            - operatingSystem: Windows
-              anyconnectImage:
-                name: cisco-secure-client-macos-5.0.00556-webdeploy-k9.pkg
-                type: AnyConnectPackage
-                id: 00000000-0000-0ed3-0000-004294970342
             - operatingSystem: Windows
               anyconnectImage:
                 name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
@@ -222,11 +220,15 @@
             name: lab-ftd1_ravpn_policy
           
           dapPolicy:
-            name: dap-policy-name
-            id: 00000000-0000-0ed3-0000-004294970555
+            name: Name
+            id: UUID
             type: DynamicAccessPolicy
-          #
 
+          localRealmServer:
+            name: Name
+            id: UUID
+            type: IdentityRealm
+          #
 
         path_params:
           objectId: "00000000-0000-0ed3-0000-004294970377"
