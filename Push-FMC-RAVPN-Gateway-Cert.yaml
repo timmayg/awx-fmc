@@ -209,10 +209,6 @@
                 name: cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg
                 type: AnyConnectPackage
                 id: 00000000-0000-0ed3-0000-004294970324
-
-        path_params:
-          objectId: "00000000-0000-0ed3-0000-004294970377"
-          domainUUID: "{{ domain_uuid }}"
           #
           addressAssignmentSettings:
             type: RaVpnAddressAssignmentSetting
@@ -228,6 +224,13 @@
             id: 00000000-0000-0ed3-0000-004294970555
             type: DynamicAccessPolicy
           #
+
+
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-004294970377"
+          domainUUID: "{{ domain_uuid }}"
+
+
 
 
 
