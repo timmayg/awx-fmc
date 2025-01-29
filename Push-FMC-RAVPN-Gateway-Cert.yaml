@@ -49,22 +49,6 @@
           - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
           - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
-    - name: Print the FTD Device & Policy ID
-      ansible.builtin.debug:
-        msg:
-          - "Device ID: {{ ra_vpn_gateway['response']['items'][0]['device']['id'] }}"
-          - "Policy ID: {{ ra_vpn_gateway['response']['items'][0]['policy']['id'] }}"
-
-
-
-
-# this is the old task... 
-    - name: Print the FTD Device & Policy ID
-      ansible.builtin.debug:
-        msg:
-          - "Device ID: {{ ra_vpn_gateway.response['items'][0]['device']['id'] }}"
-          - "Policy ID: {{ ra_vpn_gateway.response['items'][0]['policy']['id'] }}"
-
 
 # FMC -> Objects -> PKI -> Cert Enrollment
     - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
@@ -127,8 +111,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:                 #  .response['items'][0]['id']         
-#            objectId: "{{ ra_vpn_gateway.response[items][0][policy][id] }}"
-            objectId: "00000000-0000-0ed3-0000-004294970377"
+            objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
       register: ftd_vpn_model
 #
@@ -207,8 +190,8 @@
 
 
 
-    - name: Timmay HARD STOP this Playbook
-      meta: end_play
+#    - name: Timmay HARD STOP this Playbook
+#      meta: end_play
 #  The task below is the one I've been working on for LONG TIME
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
@@ -216,7 +199,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         data:
-          id: "00000000-0000-0ed3-0000-004294970377"
+          id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
           name: "lab-ftd1_ravpn_policy"
           type: "RAVpn"
           description: "Sample_Put"
@@ -280,7 +263,7 @@
           #
 
         path_params:
-          objectId: "00000000-0000-0ed3-0000-004294970377"
+          objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
           domainUUID: "{{ domain_uuid }}"
 
 
