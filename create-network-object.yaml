@@ -1,10 +1,13 @@
+---
 - hosts: all
   connection: httpapi
   tasks:
+
     - name: Get Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: domain
+
 
     - name: Create a network object for Cisco FTD 1
       cisco.fmcansible.fmc_configuration:
@@ -15,4 +18,4 @@
           type: Network
         path_params:
           domainUUID: '{{ domain[0].uuid }}'
-          
+        register_as: create_object
