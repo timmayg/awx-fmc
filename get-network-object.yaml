@@ -11,5 +11,5 @@
         operation: getAllNetworkObject
         path_params:
           domainUUID: '{{ domain[0].uuid }}'
-        query_params:
-          filter: "nameOrValue:ad1"
+#        query_params:
+#          filter: "nameOrValue:ad1"
