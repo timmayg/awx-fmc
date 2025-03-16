@@ -9,7 +9,7 @@
         register_as: domain
 
 
-
+# update.. testing.. playing..
     - name: Execute 'createMultipleNetworkObject' operation
       cisco.fmcansible.fmc_configuration:
         operation: "createMultipleNetworkObject"
@@ -19,11 +19,13 @@
             overridable: False
             description: Network obj 1
             type: Network
-            name: net2
-            value: 1.1.0.0/24
-            overridable: False
-            description: Network obj 2
-            type: Network
+
+#            name: net2
+#            value: 1.1.0.0/24
+#            overridable: False
+#            description: Network obj 2
+#            type: Network
+
         path_params:
             domainUUID: "{{ domain[0].uuid }}"
 #        query_params:
