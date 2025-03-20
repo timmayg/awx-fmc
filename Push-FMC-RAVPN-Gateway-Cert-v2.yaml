@@ -49,6 +49,10 @@
           - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
           - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
+    - name: XX - Generate a Date Fact for FMC
+      ansible.builtin.set_fact:
+        formatted_datetime: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}-{{ ansible_date_time.second }}"
+
 # tweaking task 06
 # FMC -> Objects -> PKI -> Cert Enrollment
     - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
@@ -63,7 +67,7 @@
             pkcs12Content: 
               base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
               passPhrase: 'cisco123'
-            name: "{{ ansible_date_time.iso8601 }}"
+            name: "{{ formatted_datetime }}"
             description: "Added by an Ansible Playbook & AWX" 
             #overrides: 
             #  target: 
