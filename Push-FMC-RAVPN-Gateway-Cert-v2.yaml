@@ -43,19 +43,19 @@
             domainUUID: "{{ domain_uuid }}"
         register_as: ra_vpn_gateway
 
-    - name: Print the FTD Device & Policy ID
+    - name: AA - DEBUG - Print the FTD Device & Policy ID
       ansible.builtin.debug:
         msg:
           - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
           - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
-    - name: XX - Generate a Date Fact for FMC
+    - name: 06 - Generate a Date Fact for FMC
       ansible.builtin.set_fact:
         formatted_datetime: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}"
 
-# tweaking task 06
+
 # FMC -> Objects -> PKI -> Cert Enrollment
-    - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
+    - name: 07 - Add Certificate to Objects > PKI > Cert Enrollment
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
         path_params:
@@ -77,36 +77,36 @@
         register_as: create_vpn_cert
 
 
-    - name: This IS THE Authoritative Source for the Cert ID
+    - name: This IS THE GUID for the cert that was just uploaded in 07 - Add Cert
       ansible.builtin.debug:
         var: create_vpn_cert.id
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
-    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllVpnCertEnrollmentModel"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-      register: all_vpn_cert_enrollments
+#    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllVpnCertEnrollmentModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+#      register: all_vpn_cert_enrollments
 
 ############################################################################
 
-    - name: Print the Cert ID (ALL)    
-      ansible.builtin.debug:
-        var: all_vpn_cert_enrollments
+#    - name: Print the Cert ID (ALL)    
+#      ansible.builtin.debug:
+#        var: all_vpn_cert_enrollments
 
 
 ############################################################################
 #
 # This task shows basic info about the 
 # FMC -> Devices -> Remote Access 
-    - name: AB - Execute 'getAllFTDRAVpnModel' operation
-      cisco.fmcansible.fmc_configuration:
-        operation: "getAllFTDRAVpnModel"
-        path_params:
-          domainUUID: "{{ domain_uuid }}"
-      register: all_ftd_vpn_models
+#    - name: AB - Execute 'getAllFTDRAVpnModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnModel"
+#        path_params:
+#          domainUUID: "{{ domain_uuid }}"
+#      register: all_ftd_vpn_models
 
 
 #https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
@@ -196,7 +196,8 @@
 #  The task below is the one I'm jammin on rightnow
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
-    - name: 07AA - Execute 'updateFTDRAVpnModel' operation
+
+    - name: 08 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         path_params:
@@ -220,14 +221,18 @@
                 enableSSL: true
                 enableIPSecIkev2: true
                 enableDTLS: true
+
             sslIdCertificate:
               type: "CertEnrollment"
-              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
-              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+              name: "{{ create_vpn_cert.name }}"
+              id: "{{ create_vpn_cert.id }}"
             ipsecIdCertificate:
               type: "CertEnrollment"
-              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
-              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+              name: "{{ create_vpn_cert.name }}"
+              id: "{{ create_vpn_cert.id }}"
+
+ 
+
           addressAssignmentSettings:
             type: "RaVpnAddressAssignmentSetting"
             id: "00000000-0000-0ed3-0000-004294970435"
@@ -257,6 +262,8 @@
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
+
+
 #  The task below is the one I've been working on for LONG TIME
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
