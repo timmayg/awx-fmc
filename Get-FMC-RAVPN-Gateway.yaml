@@ -2,7 +2,7 @@
 - name: Playbook to get the expiry date of the RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
-  gather_facts: false
+  gather_facts: true
 
   tasks:
 
