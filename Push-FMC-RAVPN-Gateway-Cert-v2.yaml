@@ -1,0 +1,561 @@
+---
+- name: Playbook to Push a RAVPN Gateway Certificate
+  hosts: all
+  connection: httpapi
+  gather_facts: true
+
+  tasks:
+#    - name: Do you need to delete the certificate ??? 
+#      ansible.builtin.pause:
+#        seconds: 5
+
+    - name: 01 - Read the Firepower Creds from Vault
+      community.hashi_vault.vault_kv2_get:
+        path: "cred_lab_fmc"  
+        url: "{{ vault_url }}"
+        auth_method: "{{ vault_auth_method  }}" 
+        token: "{{ vault_token }}"
+        engine_mount_point: "{{ vault_mount }}"
+      register: fmc_creds
+
+    - name: 02 - Read the FTD RAVPN Certificate from Vault
+      community.hashi_vault.vault_kv2_get:
+        path: "lab-ftd.timslab.fun"         #p12_in_base64"
+        url: "{{ vault_url }}"
+        auth_method: "{{ vault_auth_method  }}" 
+        token: "{{ vault_token }}"
+        engine_mount_point: "{{ vault_mount }}"
+      register: acme_cert
+
+    - name: 03 - Get FMC Domain
+      cisco.fmcansible.fmc_configuration:
+        operation: getAllDomain
+        register_as: fmc_domains
+
+    - name: 04 - Set domain_uuid
+      ansible.builtin.set_fact:
+        domain_uuid: "{{ fmc_domains[0]['uuid'] }}"
+
+    - name: 05 - Get info from FMC getRaVpnGateway
+      cisco.fmcansible.fmc_configuration:
+        operation: "getRaVpnGateway"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        register_as: ra_vpn_gateway
+
+    - name: Print the FTD Device & Policy ID
+      ansible.builtin.debug:
+        msg:
+          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
+          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
+
+# tweaking task 06
+# FMC -> Objects -> PKI -> Cert Enrollment
+    - name: 06 - Add Certificate to Objects > PKI > Cert Enrollment
+      cisco.fmcansible.fmc_configuration:
+        operation: "createVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: False
+            pkcs12Content: 
+              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'cisco123'
+            name: "{{ ansible_date_time.iso8601 }}"
+            description: "Added by an Ansible Playbook & AWX" 
+            #overrides: 
+            #  target: 
+            #    name: 'lab-ftd1'
+            #    id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+            #    type: 'Device'
+        register_as: create_vpn_cert
+
+
+    - name: This IS THE Authoritative Source for the Cert ID
+      ansible.builtin.debug:
+        var: create_vpn_cert.id
+
+
+# FMC -> Objects -> PKI -> Cert Enrollment
+    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: all_vpn_cert_enrollments
+
+############################################################################
+
+    - name: Print the Cert ID (ALL)    
+      ansible.builtin.debug:
+        var: all_vpn_cert_enrollments
+
+
+############################################################################
+#
+# This task shows basic info about the 
+# FMC -> Devices -> Remote Access 
+    - name: AB - Execute 'getAllFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllFTDRAVpnModel"
+        path_params:
+          domainUUID: "{{ domain_uuid }}"
+      register: all_ftd_vpn_models
+
+
+#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
+#     objectId comes from task 05 - Get info from FMC getRaVpnGateway
+#     Optimally we should be able to use the ra_vpn_gateway variable
+    - name: AC - Execute 'getFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnModel"
+        path_params:                     
+            objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+            domainUUID: "{{ domain_uuid }}"
+      register: ftd_vpn_model
+#
+############################################################################
+
+
+###  No Certificate Map Models returned when this is run
+#    - name: AD - Execute 'getAllCertificateMapModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllCertificateMapModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+#        register_as: all_cert_map_models
+
+
+
+###  No Dynamic Access Policies returned when this is run
+#    - name: Execute 'getAllDynamicAccessPolicy' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllDynamicAccessPolicy"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+
+###  No Dynamic Access Policies returned when this is run
+#    - name: Execute 'getDynamicAccessPolicy' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getDynamicAccessPolicy"
+#        path_params:
+#            objectId: "{{ object_id }}"
+#            domainUUID: "{{ domain_uuid }}"
+
+#    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnAddressAssignmentSetting"
+#        path_params:
+#            containerUUID: "00000000-0000-0ed3-0000-004294970377"  #  <---- THIS
+#            domainUUID: "{{ domain_uuid }}"
+#        register_as: all_vpn_address_assignments
+
+#    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnAddressAssignmentSetting"
+#        path_params:
+#            objectId: "{{ all_vpn_address_assignments.response['items'][0]['id'] }}"
+#            containerUUID: "{{ container_uuid }}"
+#            domainUUID: "{{ domain_uuid }}"
+
+#    - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnConnectionProfileModel"
+#        path_params:
+#            containerUUID: "00000000-0000-0ed3-0000-004294970377"
+#            domainUUID: "{{ domain_uuid }}"
+#
+#    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnConnectionProfileModel"
+#        path_params:
+#            objectId: "{{ object_id }}"
+#            containerUUID: "{{ container_uuid }}"
+#            domainUUID: "{{ domain_uuid }}"
+#
+#    - name: Execute 'getDeviceSettings' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getDeviceSettings"
+#        path_params:
+#            containerUUID: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
+#            domainUUID: "{{ domain_uuid }}"
+
+
+
+
+
+
+#    - name: Timmay HARD STOP this Playbook
+#      meta: end_play
+#  The task below is the one I'm jammin on rightnow
+# https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
+#
+    - name: 07AA - Execute 'updateFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateFTDRAVpnModel"
+        path_params:
+          objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          domainUUID: "{{ domain_uuid }}"
+        data:
+          id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          name: "lab-ftd1_ravpn_policy"
+          type: "RAVpn"
+          description: ""
+          configureSSL: true
+          configureIpsec: true
+          accessInterfaceSettings:
+            bypassACPolicyForDecryptTraffic: false
+            interfaceSettings:
+              - accessInterface:
+                  name: "lab-ftd1_Outside"
+                  id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+                  type: "SecurityZone"
+                configureInterfaceIDCertificate: false
+                enableSSL: true
+                enableIPSecIkev2: true
+                enableDTLS: true
+            sslIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+            ipsecIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+          addressAssignmentSettings:
+            type: "RaVpnAddressAssignmentSetting"
+            id: "00000000-0000-0ed3-0000-004294970435"
+          anyConnectClientImages:
+            - operatingSystem: "WINDOWS"
+              anyconnectImage:
+                name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
+                type: "AnyConnectPackage"
+                id: "00000000-0000-0ed3-0000-004294970324"
+          connectionProfiles:
+            id: "00000000-0000-0ed3-0000-004294970533"
+            type: "RaVpnConnectionProfile"
+            name: "lab-ftd1_ravpn_policy"
+          dapPolicy:
+            name: "Name"
+            id: "UUID"
+            type: DynamicAccessPolicy  
+          #
+
+
+
+
+
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+#  The task below is the one I've been working on for LONG TIME
+# https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
+#
+    - name: 07 - Execute 'updateFTDRAVpnModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateFTDRAVpnModel"
+        data:
+          id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          name: "lab-ftd1_ravpn_policy"
+          type: "RAVpn"
+          description: ""
+          configureSSL: true
+          configureIpsec: true
+
+          accessInterfaceSettings:
+            bypassACPolicyForDecryptTraffic: false
+            interfaceSettings:
+              - accessInterface:
+                  name: "lab-ftd1_Outside"
+                  id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+                  type: "SecurityZone"
+                configureInterfaceIDCertificate: false
+                enableSSL: true
+                enableIPSecIkev2: true
+                enableDTLS: true
+            webPort: 443
+            sslIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+            ipsecIdCertificate:
+              type: "CertEnrollment"
+              name: "{{ all_vpn_cert_enrollments.response['items'][0]['name'] }}"
+              id: "{{ all_vpn_cert_enrollments.response['items'][0]['id'] }}"
+            allowConnectionProfileSelection: true
+            dtlsPort: 443
+          groupPolicies:
+            - type: "GroupPolicy"
+              name: "DfltGrpPolicy"
+              id: "00000000-0000-0ed3-0000-000000010001"
+            - type: "GroupPolicy"
+              name: "lab-ravpn-Group-Policy-HI"
+              id: "00000000-0000-0ed3-0000-004294970360"
+
+          addressAssignmentSettings:
+            type: "RaVpnAddressAssignmentSetting"
+            id: "00000000-0000-0ed3-0000-004294970435"
+          anyConnectClientImages:
+            - operatingSystem: "WINDOWS"
+              anyconnectImage:
+                name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
+                type: "AnyConnectPackage"
+                id: "00000000-0000-0ed3-0000-004294970324"
+          connectionProfiles:
+            id: "00000000-0000-0ed3-0000-004294970533"
+            type: "RaVpnConnectionProfile"
+            name: "lab-ftd1_ravpn_policy"
+          dapPolicy:
+            name: "Name"
+            id: "UUID"
+            type: DynamicAccessPolicy
+
+        path_params:
+          objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+          domainUUID: "{{ domain_uuid }}"
+
+
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+
+# Maybe try this task... who the f knows if it will work....
+
+    - name: TEST - Update FMC RAVPN Policy
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateFTDRAVpnModel"
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-004294970377"
+          domainUUID: "e276abec-e0f2-11e3-8169-6d9ed49b625f"
+        data:
+          id: "00000000-0000-0ed3-0000-004294970377"
+          name: "lab-ftd1_ravpn_policy"
+          type: "RAVpn"
+          description: "SAMPLE PUT"
+          configureSSL: true
+          configureIpsec: true
+          accessInterfaceSettings:
+            bypassACPolicyForDecryptTraffic: false
+            interfaceSettings:
+              - accessInterface:
+                  name: "lab-ftd1_Outside"
+                  id: "9a088322-d13c-11ee-8329-a8431f2f725e"
+                  type: "SecurityZone"
+                configureInterfaceIDCertificate: true
+                enableSSL: true
+                enableIPSecIkev2: true
+                enableDTLS: true
+            webPort: 443
+            sslIdCertificate:
+              type: "CertEnrollment"
+              name: "AWX_imported_cert"
+              id: "00000000-0000-0ed3-0000-012884912198"
+            ipsecIdCertificate:
+              type: "CertEnrollment"
+              name: "AWX_imported_cert"
+              id: "00000000-0000-0ed3-0000-012884912198"
+            allowConnectionProfileSelection: true
+            dtlsPort: 443
+          groupPolicies:
+            - name: "DfltGrpPolicy"
+              id: "00000000-0000-0ed3-0000-000000010001"
+              type: "GroupPolicy"
+            - name: "lab-ravpn-Group-Policy-HI"
+              id: "00000000-0000-0ed3-0000-004294970360"
+              type: "GroupPolicy"
+          anyConnectClientImages:
+            - operatingSystem: "WINDOWS"
+              anyconnectImage:
+                name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
+                type: "AnyConnectPackage"
+                id: "00000000-0000-0ed3-0000-004294970324"
+          externalBrowserPackage:
+            name: "Default-External-Browser-package"
+            id: "00000000-0000-0ed3-0000-000000000501"
+            type: "AnyConnectExternalBrowserPackage"
+          dapPolicy:
+            name: "Name"
+            id: "UUID"
+            type: "DynamicAccessPolicy"
+          localRealmServer:
+            name: "Name"
+            id: "UUID"
+            type: "IdentityRealm"
+          addressAssignmentSettings:
+            type: "RaVpnAddressAssignmentSetting"
+            id: "UUID"
+          connectionProfiles:
+            id: "UUID"
+            type: "RaVpnConnectionProfile"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+
+# Most of the crap below this stop is likely not needed
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#
+#  This task likely needs to be removed
+#
+    - name: Execute 'updateVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateVpnCertEnrollmentModel"
+        data:
+          type: CertEnrollment
+          enrollmentType: PKCS12
+          overridable: true
+          pkcs12Content:
+            base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
+            passPhrase: "cisco123"
+          name: certName
+          description: ""
+          overrides:
+            parent:
+              id: 00505681-AEC9-0ed3-0000-137438953475
+              type: CertEnrollment
+            target:
+              name: deviceName
+              id: 93cdd824-6ef9-11ec-abd5-a12f5f15e4e2
+              type: Device
+        path_params:
+          objectId: "00000000-0000-0ed3-0000-012884909581"
+          domainUUID: "{{ domain_uuid }}"
+
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+
+    - name: 07 - Get Internal Certificate Status
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllInternalCertificate"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: internal_certs
+
+#    - name: Print objectId
+#      ansible.builtin.debug:
+#        msg: "objectId is {{ ra_vpn_gateway }}"
+
+ 
+
+#    - name: Execute 'getAllCertificateMapModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllCertificateMapModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+
+#    - name: C1 - Execute 'getAllFTDRAVpnModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getAllFTDRAVpnModel"
+#        path_params:
+#            domainUUID: "{{ domain_uuid }}"
+#      register: all_ftd_vpn_models
+
+#    - name: Debug the ra_vpn_gateway variable
+#      ansible.builtin.debug:
+#        var: ra_vpn_gateway
+#
+#    - name: Debug items in ra_vpn_gateway
+#      ansible.builtin.debug:
+#        msg: "Items: {{ ra_vpn_gateway.response.items }}"
+#
+#    - name: Debug items in ra_vpn_gateway
+#      ansible.builtin.debug:
+#        var: ra_vpn_gateway.response.items
+#
+
+#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
+#     objectId comes from task 05 - Get info from FMC getRaVpnGateway
+#     Optimally we should be able to use the ra_vpn_gateway variable
+#    - name: C2 - Execute 'getFTDRAVpnModel' operation
+#      cisco.fmcansible.fmc_configuration:
+#        operation: "getFTDRAVpnModel"
+#        path_params:
+#            objectId: "00000000-0000-0ed3-0000-004294970377"
+#            domainUUID: "{{ domain_uuid }}"
+#      register: ftd_vpn_model
+
+
+# FMC -> Objects -> PKI -> Cert Enrollment
+    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getAllVpnCertEnrollmentModel"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+      register: all_vpn_cert_enrollments
+
+
+# https://developer.cisco.com/docs/fmc-ansible/updatevpncertenrollmentmodel
+# FMC -> Objects -> PKI -> Cert Enrollment
+    - name: BB - Execute 'updateVpnCertEnrollmentModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "updateVpnCertEnrollmentModel"
+        data:
+            type: CertEnrollment
+            enrollmentType: PKCS12
+            overridable: True
+            pkcs12Content: 
+              base64Certificate: "{{ acme_cert.data.data.p12_in_base64 }}"
+              passPhrase: 'cisco123'
+            name: "ChangeThis"
+            description:  
+            overrides: 
+              parent: 
+                id: '00000000-0000-0ed3-0000-012884904511'
+                type: 'CertEnrollment'
+              target: 
+                name: 'lab-ftd1'
+                id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
+                type: 'Device'
+        path_params:
+            objectId: "00000000-0000-0ed3-0000-012884904511"
+            domainUUID: "{{ domain_uuid }}"
+
+    - name: 10 - Push the RAVPN Gateway Certificate
+      cisco.fmcansible.fmc_configuration:
+        operation: "pushRaVpnGatewayCertificate"
+        path_params:
+            domainUUID: "{{ domain_uuid }}"
+            raVpnGatewayUUID: "{{ ra_vpn_gateway['items'][0]['id'] }}"
+        data:
+            certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
+            passphrase: "{{ ravpn_cert.data.data.p12_passphrase }}"
+      register: push_cert
+
+    - name: Timmay HARD STOP this Playbook
+      meta: end_play
+
+      
