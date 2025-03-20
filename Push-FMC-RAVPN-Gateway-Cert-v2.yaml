@@ -126,6 +126,19 @@
 #
 ############################################################################
 
+# https://developer.cisco.com/docs/fmc-ansible/getftdravpnconnectionprofilemodel
+#
+    - name: 10 - Execute 'getFTDRAVpnConnectionProfileModel' operation
+      cisco.fmcansible.fmc_configuration:
+        operation: "getFTDRAVpnConnectionProfileModel"
+        path_params:
+            containerUUID: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
+            domainUUID: "{{ domain_uuid }}"
+
+
+
+
+
 
 ###  No Certificate Map Models returned when this is run
 #    - name: AD - Execute 'getAllCertificateMapModel' operation
@@ -200,7 +213,7 @@
 # https://developer.cisco.com/docs/fmc-ansible/updateftdravpnmodel
 #
 # tweaking updateFTDRAVpnModel task variables
-    - name: 08 - Execute 'updateFTDRAVpnModel' operation
+    - name: 10 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         path_params:
@@ -465,7 +478,8 @@
     - name: Timmay HARD STOP this Playbook
       meta: end_play
 
-
+# https://developer.cisco.com/docs/fmc-ansible/getallinternalcertificate/
+# 
     - name: 07 - Get Internal Certificate Status
       cisco.fmcansible.fmc_configuration:
         operation: "getAllInternalCertificate"
@@ -505,7 +519,7 @@
 #        var: ra_vpn_gateway.response.items
 #
 
-#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
+# https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
 #     objectId comes from task 05 - Get info from FMC getRaVpnGateway
 #     Optimally we should be able to use the ra_vpn_gateway variable
 #    - name: C2 - Execute 'getFTDRAVpnModel' operation
@@ -551,17 +565,6 @@
         path_params:
             objectId: "00000000-0000-0ed3-0000-012884904511"
             domainUUID: "{{ domain_uuid }}"
-
-    - name: 10 - Push the RAVPN Gateway Certificate
-      cisco.fmcansible.fmc_configuration:
-        operation: "pushRaVpnGatewayCertificate"
-        path_params:
-            domainUUID: "{{ domain_uuid }}"
-            raVpnGatewayUUID: "{{ ra_vpn_gateway['items'][0]['id'] }}"
-        data:
-            certificate: "{{ ravpn_cert.data.data.p12_in_base64 }}"
-            passphrase: "{{ ravpn_cert.data.data.p12_passphrase }}"
-      register: push_cert
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
