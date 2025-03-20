@@ -87,7 +87,7 @@
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
-#    - name: AA - Execute 'getAllVpnCertEnrollmentModel' operation
+#    - name: AA - DEBUG - Execute 'getAllVpnCertEnrollmentModel' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllVpnCertEnrollmentModel"
 #        path_params:
@@ -96,7 +96,7 @@
 
 ############################################################################
 
-#    - name: Print the Cert ID (ALL)    
+#    - name: AA - DEBUG - Print the Cert ID (ALL)    
 #      ansible.builtin.debug:
 #        var: all_vpn_cert_enrollments
 
@@ -105,7 +105,7 @@
 #
 # This task shows basic info about the 
 # FMC -> Devices -> Remote Access 
-#    - name: AB - Execute 'getAllFTDRAVpnModel' operation
+#    - name: AA - DEBUG - Execute 'getAllFTDRAVpnModel' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllFTDRAVpnModel"
 #        path_params:
@@ -113,7 +113,7 @@
 #      register: all_ftd_vpn_models
 
 
-#https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
+# https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
 #     objectId comes from task 05 - Get info from FMC getRaVpnGateway
 #     Optimally we should be able to use the ra_vpn_gateway variable
     - name: 09 - Execute 'getFTDRAVpnModel' operation
@@ -123,8 +123,6 @@
             objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
         register_as: ftd_vpn_model
-#
-############################################################################
 
 # https://developer.cisco.com/docs/fmc-ansible/getftdravpnconnectionprofilemodel
 #
@@ -132,6 +130,7 @@
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnConnectionProfileModel"
         path_params:
+            objectId: ""
             containerUUID: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
 
@@ -140,8 +139,8 @@
 
 
 
-###  No Certificate Map Models returned when this is run
-#    - name: AD - Execute 'getAllCertificateMapModel' operation
+###  DEBUG No Certificate Map Models returned when this is run
+#    - name: AA - DEBUG - Execute 'getAllCertificateMapModel' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllCertificateMapModel"
 #        path_params:
@@ -151,21 +150,21 @@
 
 
 ###  No Dynamic Access Policies returned when this is run
-#    - name: Execute 'getAllDynamicAccessPolicy' operation
+#    - name: AA - DEBUG - Execute 'getAllDynamicAccessPolicy' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllDynamicAccessPolicy"
 #        path_params:
 #            domainUUID: "{{ domain_uuid }}"
 
 ###  No Dynamic Access Policies returned when this is run
-#    - name: Execute 'getDynamicAccessPolicy' operation
+#    - name: AA - DEBUG - Execute 'getDynamicAccessPolicy' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getDynamicAccessPolicy"
 #        path_params:
 #            objectId: "{{ object_id }}"
 #            domainUUID: "{{ domain_uuid }}"
 
-#    - name: Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
+#    - name: AA - DEBUG - Execute 'getAllFTDRAVpnAddressAssignmentSetting' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllFTDRAVpnAddressAssignmentSetting"
 #        path_params:
@@ -173,7 +172,7 @@
 #            domainUUID: "{{ domain_uuid }}"
 #        register_as: all_vpn_address_assignments
 
-#    - name: Execute 'getFTDRAVpnAddressAssignmentSetting' operation
+#    - name: AA - DEBUG - Execute 'getFTDRAVpnAddressAssignmentSetting' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getFTDRAVpnAddressAssignmentSetting"
 #        path_params:
@@ -181,14 +180,14 @@
 #            containerUUID: "{{ container_uuid }}"
 #            domainUUID: "{{ domain_uuid }}"
 
-#    - name: Execute 'getAllFTDRAVpnConnectionProfileModel' operation
+#    - name: AA - DEBUG - Execute 'getAllFTDRAVpnConnectionProfileModel' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getAllFTDRAVpnConnectionProfileModel"
 #        path_params:
 #            containerUUID: "00000000-0000-0ed3-0000-004294970377"
 #            domainUUID: "{{ domain_uuid }}"
 #
-#    - name: Execute 'getFTDRAVpnConnectionProfileModel' operation
+#    - name: AA - DEBUG - Execute 'getFTDRAVpnConnectionProfileModel' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getFTDRAVpnConnectionProfileModel"
 #        path_params:
@@ -196,7 +195,7 @@
 #            containerUUID: "{{ container_uuid }}"
 #            domainUUID: "{{ domain_uuid }}"
 #
-#    - name: Execute 'getDeviceSettings' operation
+#    - name: AA - DEBUG - Execute 'getDeviceSettings' operation
 #      cisco.fmcansible.fmc_configuration:
 #        operation: "getDeviceSettings"
 #        path_params:
