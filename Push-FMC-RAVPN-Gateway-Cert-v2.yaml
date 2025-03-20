@@ -21,7 +21,7 @@
 
     - name: 02 - Read the FTD RAVPN Certificate from Vault
       community.hashi_vault.vault_kv2_get:
-        path: "lab-ftd.timslab.fun"         #p12_in_base64"
+        path: "lab-ftd.timslab.fun"
         url: "{{ vault_url }}"
         auth_method: "{{ vault_auth_method  }}" 
         token: "{{ vault_token }}"
@@ -197,7 +197,7 @@
 
 
 #  The task below is the one I'm jammin on rightnow
-# https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
+# https://developer.cisco.com/docs/fmc-ansible/updateftdravpnmodel
 #
 # tweaking updateFTDRAVpnModel task variables
     - name: 08 - Execute 'updateFTDRAVpnModel' operation
@@ -235,16 +235,16 @@
  
 
           addressAssignmentSettings:
-            type: "RaVpnAddressAssignmentSetting"
-            id: "00000000-0000-0ed3-0000-004294970435"
+            type: "{{ ftd_vpn_model.addressAssignmentSettings.type }}"
+            id: "{{ ftd_vpn_model.addressAssignmentSettings.id }}"
 
 
           anyConnectClientImages:
             - operatingSystem: "WINDOWS"
               anyconnectImage:
-                name: "cisco-secure-client-win-5.0.00556-webdeploy-k9.pkg"
-                type: "AnyConnectPackage"
-                id: "00000000-0000-0ed3-0000-004294970324"
+                name: "{{ ftd_vpn_model.anyConnectClientImages[0].anyconnectImage.name }}"
+                type: "{{ ftd_vpn_model.anyConnectClientImages[0].anyconnectImage.type }}"
+                id: "{{ ftd_vpn_model.anyConnectClientImages[0].anyconnectImage.id }}"
           connectionProfiles:
             id: "00000000-0000-0ed3-0000-004294970533"
             type: "RaVpnConnectionProfile"
@@ -253,18 +253,12 @@
             name: "Name"
             id: "UUID"
             type: DynamicAccessPolicy  
-          #
-
-
-
-
-
-
 
 
 
     - name: Timmay HARD STOP this Playbook
       meta: end_play
+
 
 
 #  The task below is the one I've been working on for LONG TIME
