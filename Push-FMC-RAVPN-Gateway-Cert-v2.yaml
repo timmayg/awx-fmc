@@ -18,6 +18,7 @@
         engine_mount_point: "{{ vault_mount }}"
       register: fmc_creds
 
+
     - name: 02 - Read the FTD RAVPN Certificate from Vault
       community.hashi_vault.vault_kv2_get:
         path: "lab-ftd.timslab.fun"         #p12_in_base64"
@@ -27,14 +28,17 @@
         engine_mount_point: "{{ vault_mount }}"
       register: acme_cert
 
+
     - name: 03 - Get FMC Domain
       cisco.fmcansible.fmc_configuration:
         operation: getAllDomain
         register_as: fmc_domains
 
+
     - name: 04 - Set domain_uuid
       ansible.builtin.set_fact:
         domain_uuid: "{{ fmc_domains[0]['uuid'] }}"
+
 
     - name: 05 - Get info from FMC getRaVpnGateway
       cisco.fmcansible.fmc_configuration:
@@ -49,9 +53,10 @@
 #          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
 #          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
-    - name: 06 - Gather only datetime facts
+    - name: 06 - Gather datetime facts
       ansible.builtin.setup:
         filter: "ansible_date_time"
+
 
     - name: 07 - Generate a Date Fact for FMC
       ansible.builtin.set_fact:
@@ -185,17 +190,15 @@
 #            containerUUID: "769b0c9a-d0f9-11ee-8bb1-e2c15158e365"
 #            domainUUID: "{{ domain_uuid }}"
 
-
-
-
-
-
 #    - name: Timmay HARD STOP this Playbook
 #      meta: end_play
+
+
+
+
 #  The task below is the one I'm jammin on rightnow
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
-
 # tweaking updateFTDRAVpnModel task variables
     - name: 08 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
@@ -205,8 +208,8 @@
           domainUUID: "{{ domain_uuid }}"
         data:
           id: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
-          name: "lab-ftd1_ravpn_policy"
-          type: "RAVpn"
+          name: "{{ ra_vpn_gateway[0]['policy']['name'] }}"
+          type: "{{ ra_vpn_gateway[0]['policy']['type'] }}"
           description: ""
           configureSSL: true
           configureIpsec: true
@@ -221,7 +224,6 @@
                 enableSSL: true
                 enableIPSecIkev2: true
                 enableDTLS: true
-
             sslIdCertificate:
               type: "CertEnrollment"
               name: "{{ create_vpn_cert.name }}"
@@ -230,12 +232,13 @@
               type: "CertEnrollment"
               name: "{{ create_vpn_cert.name }}"
               id: "{{ create_vpn_cert.id }}"
-
  
 
           addressAssignmentSettings:
             type: "RaVpnAddressAssignmentSetting"
             id: "00000000-0000-0ed3-0000-004294970435"
+
+
           anyConnectClientImages:
             - operatingSystem: "WINDOWS"
               anyconnectImage:
