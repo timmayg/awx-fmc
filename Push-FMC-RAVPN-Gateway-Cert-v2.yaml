@@ -2,7 +2,7 @@
 - name: Playbook to Push a RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
-  gather_facts: true
+  gather_facts: minimal
 
   tasks:
 #    - name: Do you need to delete the certificate ??? 
@@ -43,11 +43,11 @@
             domainUUID: "{{ domain_uuid }}"
         register_as: ra_vpn_gateway
 
-    - name: AA - DEBUG - Print the FTD Device & Policy ID
-      ansible.builtin.debug:
-        msg:
-          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
-          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
+#     - name: AA - DEBUG - Print the FTD Device & Policy ID
+#      ansible.builtin.debug:
+#        msg:
+#          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
+#          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
     - name: 06 - Generate a Date Fact for FMC
       ansible.builtin.set_fact:
@@ -69,17 +69,12 @@
               passPhrase: 'cisco123'
             name: "{{ formatted_datetime }}"
             description: "Added by an Ansible Playbook & AWX" 
-            #overrides: 
-            #  target: 
-            #    name: 'lab-ftd1'
-            #    id: '769b0c9a-d0f9-11ee-8bb1-e2c15158e365'
-            #    type: 'Device'
         register_as: create_vpn_cert
 
 
-    - name: This IS THE GUID for the cert that was just uploaded in 07 - Add Cert
-      ansible.builtin.debug:
-        var: create_vpn_cert.id
+#    - name: This IS THE GUID for the cert that was just uploaded in 07 - Add Cert
+#      ansible.builtin.debug:
+#        var: create_vpn_cert.id
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
