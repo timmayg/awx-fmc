@@ -117,7 +117,7 @@
         path_params:                     
             objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
-      register: ftd_vpn_model
+        register_as: ftd_vpn_model
 #
 ############################################################################
 
