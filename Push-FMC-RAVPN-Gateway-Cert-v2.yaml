@@ -2,7 +2,7 @@
 - name: Playbook to Push a RAVPN Gateway Certificate
   hosts: all
   connection: httpapi
-  gather_facts: minimal
+  gather_facts: false
 
   tasks:
 #    - name: Do you need to delete the certificate ??? 
@@ -49,13 +49,17 @@
 #          - "Device ID: {{ ra_vpn_gateway[0]['device']['id'] }}"
 #          - "Policy ID: {{ ra_vpn_gateway[0]['policy']['id'] }}"
 
-    - name: 06 - Generate a Date Fact for FMC
+    - name: 06 - Gather only datetime facts
+      ansible.builtin.setup:
+        filter: "ansible_date_time"
+
+    - name: 07 - Generate a Date Fact for FMC
       ansible.builtin.set_fact:
         formatted_datetime: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}"
 
 
 # FMC -> Objects -> PKI -> Cert Enrollment
-    - name: 07 - Add Certificate to Objects > PKI > Cert Enrollment
+    - name: 08 - Add Certificate to Objects > PKI > Cert Enrollment
       cisco.fmcansible.fmc_configuration:
         operation: "createVpnCertEnrollmentModel"
         path_params:
@@ -107,7 +111,7 @@
 #https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
 #     objectId comes from task 05 - Get info from FMC getRaVpnGateway
 #     Optimally we should be able to use the ra_vpn_gateway variable
-    - name: AC - Execute 'getFTDRAVpnModel' operation
+    - name: 09 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:                     
@@ -192,6 +196,7 @@
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
 
+# tweaking updateFTDRAVpnModel task variables
     - name: 08 - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
@@ -209,9 +214,9 @@
             bypassACPolicyForDecryptTraffic: false
             interfaceSettings:
               - accessInterface:
-                  name: "lab-ftd1_Outside"
-                  id: "9a088322-d13c-11ee-8329-a8431f2f725e"
-                  type: "SecurityZone"
+                  name: "{{ ftd_vpn_model.accessInterfaceSettings.interfaceSettings[0].accessInterface.name }}"
+                  id: "{{ ftd_vpn_model.accessInterfaceSettings.interfaceSettings[0].accessInterface.id }}"
+                  type: "{{ ftd_vpn_model.accessInterfaceSettings.interfaceSettings[0].accessInterface.type }}"
                 configureInterfaceIDCertificate: false
                 enableSSL: true
                 enableIPSecIkev2: true
