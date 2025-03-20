@@ -51,7 +51,7 @@
 
     - name: XX - Generate a Date Fact for FMC
       ansible.builtin.set_fact:
-        formatted_datetime: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}-{{ ansible_date_time.second }}"
+        formatted_datetime: "{{ ansible_date_time.year }}-{{ ansible_date_time.month }}-{{ ansible_date_time.day }}-{{ ansible_date_time.hour }}-{{ ansible_date_time.minute }}"
 
 # tweaking task 06
 # FMC -> Objects -> PKI -> Cert Enrollment
