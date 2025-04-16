@@ -114,15 +114,15 @@
 
 
 # https://developer.cisco.com/docs/fmc-ansible/getftdravpnmodel/
-#     objectId comes from task 05 - Get info from FMC getRaVpnGateway
-#     Optimally we should be able to use the ra_vpn_gateway variable
+#
     - name: 09 - Execute 'getFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "getFTDRAVpnModel"
         path_params:                     
             objectId: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
-        register_as: ftd_vpn_model
+        register_as: ftd_ravpn_model
+
 
 # https://developer.cisco.com/docs/fmc-ansible/getftdravpnconnectionprofilemodel
 #
@@ -133,7 +133,7 @@
             objectId: ""
             containerUUID: "{{ ra_vpn_gateway[0]['policy']['id'] }}"
             domainUUID: "{{ domain_uuid }}"
-
+        register_as: ftd_ravpn_connection_profile_model
 
 
 
@@ -273,10 +273,10 @@
 
 
 
-#  The task below is the one I've been working on for LONG TIME
+#  The task below is old, likely should be deleted, and MUST not be used 
 # https://developer.cisco.com/docs/fmc-ansible/ftdravpnmodel/
 #
-    - name: 07 - Execute 'updateFTDRAVpnModel' operation
+    - name: DO NOT UPDATE - Execute 'updateFTDRAVpnModel' operation
       cisco.fmcansible.fmc_configuration:
         operation: "updateFTDRAVpnModel"
         data:
